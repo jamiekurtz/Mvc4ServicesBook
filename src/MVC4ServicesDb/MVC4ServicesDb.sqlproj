@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>MVC4ServicesDb</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{1fc82310-f186-46bf-a7d5-d2ce2a6cbb69}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>MVC4ServicesDb</RootNamespace>
+    <AssemblyName>MVC4ServicesDb</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <Recovery>SIMPLE</Recovery>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\aspnet_Applications.sql" />
+    <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Tables\Status.sql" />
+    <Build Include="dbo\Tables\Priority.sql" />
+    <Build Include="dbo\Tables\aspnet_Users.sql" />
+    <Build Include="dbo\Tables\TaskCategory.sql" />
+    <Build Include="dbo\Tables\aspnet_SchemaVersions.sql" />
+    <Build Include="dbo\Tables\Task.sql" />
+    <Build Include="dbo\Tables\aspnet_Membership.sql" />
+    <Build Include="dbo\Tables\aspnet_Roles.sql" />
+    <Build Include="dbo\Tables\aspnet_UsersInRoles.sql" />
+    <Build Include="dbo\Views\vw_aspnet_Applications.sql" />
+    <Build Include="dbo\Views\vw_aspnet_Users.sql" />
+    <Build Include="dbo\Views\vw_aspnet_MembershipUsers.sql" />
+    <Build Include="dbo\Views\vw_aspnet_Roles.sql" />
+    <Build Include="dbo\Views\vw_aspnet_UsersInRoles.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Setup_RestorePermissions.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Setup_RemoveAllRoleMembers.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_RegisterSchemaVersion.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_CheckSchemaVersion.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Applications_CreateApplication.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_UnRegisterSchemaVersion.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Users_CreateUser.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Users_DeleteUser.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_AnyDataInTables.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_CreateUser.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_GetUserByName.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_GetUserByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_GetUserByEmail.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_GetPasswordWithFormat.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_UpdateUserInfo.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_GetPassword.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_SetPassword.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_ResetPassword.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_UnlockUser.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_UpdateUser.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_ChangePasswordQuestionAndAnswer.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_GetAllUsers.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_GetNumberOfUsersOnline.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_FindUsersByName.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Membership_FindUsersByEmail.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_UsersInRoles_IsUserInRole.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_UsersInRoles_GetRolesForUser.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Roles_CreateRole.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Roles_DeleteRole.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Roles_RoleExists.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_UsersInRoles_AddUsersToRoles.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_UsersInRoles_RemoveUsersFromRoles.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_UsersInRoles_GetUsersInRoles.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_UsersInRoles_FindUsersInRole.sql" />
+    <Build Include="dbo\Stored Procedures\aspnet_Roles_GetAllRoles.sql" />
+    <Build Include="dbo\Tables\TaskUser.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
+  </ItemGroup>
+</Project>

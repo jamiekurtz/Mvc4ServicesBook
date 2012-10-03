@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<extensions assembly="" version="1" xmlns="urn:Microsoft.Data.Schema.Extensions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:Microsoft.Data.Schema.Extensions Microsoft.Data.Schema.Extensions.xsd">
+  <extension type="Microsoft.Data.Schema.Sql.Sql80DatabaseSchemaProvider" assembly="Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" enabled="true" />
+  <extension type="Microsoft.Data.Schema.Sql.Sql90DatabaseSchemaProvider" assembly="Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" enabled="true" />
+  <extension type="Microsoft.Data.Schema.Sql.Sql100DatabaseSchemaProvider" assembly="Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" enabled="true" />
+</extensions>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="MVC4ServicesBook.Web.Api.Models.Category">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAgAAAAAAAAQAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Category.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVC4ServicesBook.Web.Api.Models.Link">
+    <Position X="4.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAgAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Link.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVC4ServicesBook.Web.Api.Models.Priority">
+    <Position X="9" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAQEAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Priority.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVC4ServicesBook.Web.Api.Models.Status">
+    <Position X="9" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAABAAAAQAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Status.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVC4ServicesBook.Web.Api.Models.Task">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAACAEAIAQAAAAAAgAEgAACAAAAEAAAAA=</HashCode>
+      <FileName>Task.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+      <Property Name="Priority" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Categories" />
+      <Property Name="Assignees" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="MVC4ServicesBook.Web.Api.Models.User">
+    <Position X="2.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAIAQAAAAgAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
