@@ -5,7 +5,7 @@ using Ninject;
 
 namespace MVC4ServicesBook.Web.Common
 {
-    public class NinjectControllerFactory : IDependencyResolver
+    public class NinjectDependencyResolver : IDependencyResolver
     {
         private readonly IKernel _container;
 
@@ -14,7 +14,7 @@ namespace MVC4ServicesBook.Web.Common
             get { return _container; }
         }
 
-        public NinjectControllerFactory(IKernel container)
+        public NinjectDependencyResolver(IKernel container)
         {
             _container = container;
         }

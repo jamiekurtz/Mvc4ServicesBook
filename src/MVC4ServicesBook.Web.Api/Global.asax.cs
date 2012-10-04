@@ -10,6 +10,7 @@ using NHibernate.Cfg;
 using NHibernate.Context;
 using Ninject;
 using Ninject.Activation;
+using log4net;
 
 namespace MVC4ServicesBook.Web.Api
 {
@@ -33,18 +34,17 @@ namespace MVC4ServicesBook.Web.Api
 
             AddBindings(container);
 
-            var ninjectControllerFactory = new NinjectControllerFactory(container);
+            var ninjectControllerFactory = new NinjectDependencyResolver(container);
             GlobalConfiguration.Configuration.DependencyResolver = ninjectControllerFactory;
-            //ControllerBuilder.Current.SetControllerFactory(ninjectControllerFactory);
         }
 
         private void AddBindings(StandardKernel container)
         {
             ConfigureNHibernate(container);
 
-            //log4net.Config.XmlConfigurator.Configure();
-            //var loggerForWebSite = LogManager.GetLogger("StoreFlixWebsite");
-            //container.Bind<ILog>().ToConstant(loggerForWebSite);
+            log4net.Config.XmlConfigurator.Configure();
+            var loggerForWebSite = LogManager.GetLogger("Mvc4ServicesBookWebsite");
+            container.Bind<ILog>().ToConstant(loggerForWebSite);
 
             //container.Bind<IObjectLogger>().To<ObjectLogger>();
             //container.Bind<IFileAdapter>().To<FileAdapter>();

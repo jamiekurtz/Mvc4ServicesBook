@@ -3,3 +3,4 @@ obj
 *.suo
 /src/_ReSharper.MVC4ServicesBook
 *.user
+*.log

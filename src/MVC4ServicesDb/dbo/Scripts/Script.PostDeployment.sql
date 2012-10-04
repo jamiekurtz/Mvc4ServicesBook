@@ -10,10 +10,11 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+:r .\ReferenceData.sql
 
-if not exists(select * from dbo.Priority where Name = 'Low')
-	insert into dbo.Priority(Name, Ordinal) values('Low', 0);
-if not exists(select * from dbo.Priority where Name = 'Medium')
-	insert into dbo.Priority(Name, Ordinal) values('Medium', 1);
-if not exists(select * from dbo.Priority where Name = 'High')
-	insert into dbo.Priority(Name, Ordinal) values('High', 2);
+
+
+
+
+
+
