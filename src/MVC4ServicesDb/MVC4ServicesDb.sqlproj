@@ -122,5 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Scripts\ReferenceData.sql" />
+    <None Include="dbo\Scripts\TestData.sql" />
   </ItemGroup>
 </Project>

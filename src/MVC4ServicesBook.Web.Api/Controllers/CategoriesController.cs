@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
@@ -37,7 +38,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return CreateCategoryResponse(category);
         }
 
-        private static Category CreateCategoryResponse(Data.Model.Category modelCategory)
+        private Category CreateCategoryResponse(Data.Model.Category modelCategory)
         {
             return new Category
                        {
@@ -56,7 +57,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                        };
         }
 
-        public Category Post([FromBody]Category category)
+        public HttpResponseMessage Post(HttpRequestMessage request, Category category)
         {
             var modelCategory = new Data.Model.Category
                                     {
@@ -66,25 +67,49 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             _commonRepository.Save(modelCategory);
 
-            return CreateCategoryResponse(modelCategory);
+            var newCategory = CreateCategoryResponse(modelCategory);
+            var response = request.CreateResponse(HttpStatusCode.Created, newCategory);
+            response.Headers.Add("Location", "/api/categories/" + newCategory.CategoryId);
+
+            return response;
         }
 
-        public void Delete()
+        public HttpResponseMessage Delete()
         {
             var categories = _commonRepository.GetAll<Data.Model.Category>().ToList();
             foreach (var category in categories)
             {
                 _commonRepository.Delete(category);
             }
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }      
         
-        public void Delete(long id)
+        public HttpResponseMessage Delete(long id)
         {
             var category = _commonRepository.Get<Data.Model.Category>(id);
             if (category != null)
             {
                 _commonRepository.Delete(category);
             }
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        public Category Put(long id, Category category)
+        {
+            var modelCateogry = _commonRepository.Get<Data.Model.Category>(id);
+            if (modelCateogry == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            modelCateogry.Name = category.Name;
+            modelCateogry.Description = category.Description;
+            
+            _commonRepository.Save(modelCateogry);
+
+            return CreateCategoryResponse(modelCateogry);
         }
     }
 }
