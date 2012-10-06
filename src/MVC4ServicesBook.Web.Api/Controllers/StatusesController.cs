@@ -4,9 +4,11 @@ using System.Net;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Common;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
+    [LoggingNHibernateSessions]
     public class StatusesController : ApiController
     {
         private readonly ICommonRepository _commonRepository;

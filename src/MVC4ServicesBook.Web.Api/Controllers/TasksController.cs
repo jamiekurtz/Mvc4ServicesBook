@@ -1,10 +1,14 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Common;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
+    [LoggingNHibernateSessions]
     public class TasksController : ApiController
     {
         private readonly ICommonRepository _commonRepository;
@@ -27,6 +31,15 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return task;
         }
 
+        public IEnumerable<Task> Get()
+        {
+            var modelTasks = _commonRepository.GetAll<Data.Model.Task>();
+
+            var tasks = modelTasks.Select(CreateTaskFromModel).ToList();
+
+            return tasks;
+        }
+
         private Task CreateTaskFromModel(Data.Model.Task modelTask)
         {
             var task = new Task
@@ -47,8 +60,29 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                                                   PriorityId = modelTask.Priority.PriorityId,
                                                   Name = modelTask.Priority.Name,
                                                   Ordinal = modelTask.Priority.Ordinal
-                                              }
+                                              },
+                               Categories = modelTask
+                                   .Categories
+                                   .Select(x => new Category
+                                                    {
+                                                        CategoryId = x.CategoryId,
+                                                        Description = x.Description,
+                                                        Name = x.Name
+                                                    })
+                                   .ToList(),
+                               Assignees = modelTask
+                                   .Users
+                                   .Select(x => new User
+                                                    {
+                                                        UserId = x.UserId,
+                                                        Email = x.Email,
+                                                        Firstname = x.Firstname,
+                                                        Lastname = x.Lastname,
+                                                        Username = x.Username
+                                                    })
+                                   .ToList()
                            };
+
             return task;
         }
     }

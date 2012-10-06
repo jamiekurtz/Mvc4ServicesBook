@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace MVC4ServicesBook.Web.Api
 {
@@ -12,7 +9,12 @@ namespace MVC4ServicesBook.Web.Api
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new {id = RouteParameter.Optional});
+
+            config.Routes.MapHttpRoute(
+                name: "TaskStatysApiRoute",
+                routeTemplate: "api/tasks/{taskId}/status/{statusId}",
+                defaults: new { controller = "TaskStatus", statusId = RouteParameter.Optional }
             );
         }
     }
