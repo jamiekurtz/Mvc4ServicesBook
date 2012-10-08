@@ -8,45 +8,45 @@ using MVC4ServicesBook.Web.Common;
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
-    public class TaskStatusController : ApiController
+    public class TaskPriorityController : ApiController
     {
         private readonly ICommonRepository _commonRepository;
         private readonly IHttpTaskFetcher _taskFetcher;
 
-        public TaskStatusController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher)
+        public TaskPriorityController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher)
         {
             _commonRepository = commonRepository;
             _taskFetcher = taskFetcher;
         }
 
-        public Status Get(long taskId)
+        public Priority Get(long taskId)
         {
             var task = _taskFetcher.GetTask(taskId);
 
-            return new Status
+            return new Priority
                        {
-                           Name = task.Status.Name,
-                           Ordinal = task.Status.Ordinal,
-                           StatusId = task.Status.StatusId
+                           Name = task.Priority.Name,
+                           Ordinal = task.Priority.Ordinal,
+                           PriorityId = task.Priority.PriorityId
                        };
         }
 
-        public void Put(long taskId, long statusId)
+        public void Put(long taskId, long priorityId)
         {
             var task = _taskFetcher.GetTask(taskId);
 
-            var status = _commonRepository.Get<Data.Model.Status>(statusId);
-            if (status == null)
+            var priority = _commonRepository.Get<Data.Model.Priority>(priorityId);
+            if (priority == null)
             {
                 throw new HttpResponseException(
                     new HttpResponseMessage
                         {
                             StatusCode = HttpStatusCode.NotFound,
-                            ReasonPhrase = string.Format("Status {0} not found", statusId)
+                            ReasonPhrase = string.Format("Priority {0} not found", priorityId)
                         });
             }
 
-            task.Status = status;
+            task.Priority = priority;
 
             _commonRepository.Save(task);
         }

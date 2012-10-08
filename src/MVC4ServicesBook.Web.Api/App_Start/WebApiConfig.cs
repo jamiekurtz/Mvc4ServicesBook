@@ -12,10 +12,19 @@ namespace MVC4ServicesBook.Web.Api
                 defaults: new {id = RouteParameter.Optional});
 
             config.Routes.MapHttpRoute(
-                name: "TaskStatysApiRoute",
+                name: "TaskStatusApiRoute",
                 routeTemplate: "api/tasks/{taskId}/status/{statusId}",
-                defaults: new { controller = "TaskStatus", statusId = RouteParameter.Optional }
-            );
+                defaults: new {controller = "TaskStatus", statusId = RouteParameter.Optional});
+
+            config.Routes.MapHttpRoute(
+                name: "TaskPriorityApiRoute",
+                routeTemplate: "api/tasks/{taskId}/priority/{priorityId}",
+                defaults: new {controller = "TaskPriority", priorityId = RouteParameter.Optional});
+
+            config.Routes.MapHttpRoute(
+                name: "TaskUsersApiRoute",
+                routeTemplate: "api/tasks/{taskId}/users/{userId}",
+                defaults: new {controller = "TaskUsers", userId = RouteParameter.Optional});
         }
     }
 }

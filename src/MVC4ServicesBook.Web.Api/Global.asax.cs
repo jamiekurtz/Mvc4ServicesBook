@@ -53,6 +53,8 @@ namespace MVC4ServicesBook.Web.Api
             //container.Bind<IDateTimeHelper>().To<DateTimeHelper>();
             //container.Bind<IHtmlSanitizer>().To<HtmlSanitizer>();
 
+            container.Bind<IHttpTaskFetcher>().To<HttpTaskFetcher>();
+
             //container.Bind<IConnectionFactory>().To<SqlConnectionFactory>();
             container.Bind<ICommonRepository>().To<CommonRepository>();
             

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -61,10 +63,11 @@ namespace MVC4ServicesBook.Web.Common
 
             logger.Error("Exception occured:", exception);
 
-            //var exceptionMessage = GetExceptionMessage(exception);
-            //httpResponse.SetStatus(HttpStatusCode.InternalServerError, exceptionMessage);
-
-            //filterContext.ExceptionHandled = true;
+            filterContext.Response = new HttpResponseMessage
+                                         {
+                                             StatusCode = HttpStatusCode.InternalServerError,
+                                             ReasonPhrase = GetExceptionMessage(exception)
+                                         };
         }
 
         private string GetExceptionMessage(Exception ex)

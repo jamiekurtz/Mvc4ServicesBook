@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
@@ -12,20 +11,17 @@ namespace MVC4ServicesBook.Web.Api.Controllers
     public class TasksController : ApiController
     {
         private readonly ICommonRepository _commonRepository;
+        private readonly IHttpTaskFetcher _taskFetcher;
 
-        public TasksController(ICommonRepository commonRepository)
+        public TasksController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher)
         {
             _commonRepository = commonRepository;
+            _taskFetcher = taskFetcher;
         }
 
         public Task Get(long id)
         {
-            var modelTask = _commonRepository.Get<Data.Model.Task>(id);
-            if(modelTask == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
+            var modelTask = _taskFetcher.GetTask(id);
             var task = CreateTaskFromModel(modelTask);
 
             return task;
