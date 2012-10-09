@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Security;
 
 namespace MVC4ServicesBook.Web.Common.Security
 {
-    public class MembershipAdapter
+    public class MembershipAdapter : IMembershipAdapter
     {
         public MembershipUserWrapper GetUser(string username)
         {
@@ -30,12 +26,24 @@ namespace MVC4ServicesBook.Web.Common.Security
                            Username = user.UserName
                        };
         }
-    }
 
-    public class MembershipUserWrapper
-    {
-        public Guid UserId { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
+        public MembershipUserWrapper CreateUser(string username, string password, string email)
+        {
+            var user = Membership.CreateUser(username, password, email);
+            return CreateMembershipUserWrapper(user);
+        }
+
+        public void SaveUser(Guid userId, string email)
+        {
+            var user = Membership.GetUser(userId);
+            if(user == null)
+            {
+                throw new ArgumentException(string.Format("UserId {0} not found", userId));
+            }
+
+            user.Email = email;
+
+            Membership.UpdateUser(user);
+        }        
     }
 }

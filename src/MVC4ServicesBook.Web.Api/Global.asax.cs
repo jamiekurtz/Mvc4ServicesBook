@@ -2,9 +2,11 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using MVC4ServicesBook.Common;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Data.SqlServer;
 using MVC4ServicesBook.Web.Common;
+using MVC4ServicesBook.Web.Common.Security;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Context;
@@ -53,10 +55,15 @@ namespace MVC4ServicesBook.Web.Api
             //container.Bind<IDateTimeHelper>().To<DateTimeHelper>();
             //container.Bind<IHtmlSanitizer>().To<HtmlSanitizer>();
 
-            container.Bind<IHttpTaskFetcher>().To<HttpTaskFetcher>();
+            container.Bind<IDatabaseValueParser>().To<DatabaseValueParser>();
 
-            //container.Bind<IConnectionFactory>().To<SqlConnectionFactory>();
+            container.Bind<IHttpTaskFetcher>().To<HttpTaskFetcher>();
+            container.Bind<IUserManager>().To<UserManager>();
+            container.Bind<IMembershipAdapter>().To<MembershipAdapter>();
+
+            container.Bind<ISqlCommandFactory>().To<SqlCommandFactory>();
             container.Bind<ICommonRepository>().To<CommonRepository>();
+            container.Bind<IUserRepository>().To<UserRepository>();
             
 //            container.Bind<IUserSession>().ToMethod(GetCurrentUser);
         }

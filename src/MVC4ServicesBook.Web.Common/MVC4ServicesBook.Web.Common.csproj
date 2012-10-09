@@ -86,9 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoggingNHibernateSessionsAttribute.cs" />
+    <Compile Include="Security\IMembershipAdapter.cs" />
     <Compile Include="Security\MembershipAdapter.cs" />
     <Compile Include="NinjectDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\MembershipUserWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

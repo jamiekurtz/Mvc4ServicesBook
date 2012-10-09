@@ -4,7 +4,7 @@
                assembly="MVC4ServicesBook.Data"
                schema="dbo" >
     
-    <class name="User" table="User">
+    <class name="User" table="AllUsers">
 
         <id name="UserId" type="Guid" />
 
@@ -14,6 +14,8 @@
   
         <property name="Firstname" not-null="true" type="string" />
         <property name="Lastname" not-null="true" type="string" />
+        <property name="Username" not-null="true" type="string" />
+        <property name="Email" not-null="false" type="string" />
 
     </class>
     

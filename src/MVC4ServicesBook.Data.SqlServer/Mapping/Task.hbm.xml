@@ -23,6 +23,16 @@
         <many-to-one class="Status" name="Status" column="StatusId" />
         <many-to-one class="Priority" name="Priority" column="PriorityId" />
       
+        <bag name="Users" table="TaskUser" access="nosetter.camelcase-underscore" >
+          <key column="TaskId" />
+          <many-to-many class="User" column="UserId" not-found="ignore" />
+        </bag>
+      
+        <bag name="Categories" table="TaskCategory" access="nosetter.camelcase-underscore" >
+          <key column="TaskId" />
+          <many-to-many class="Category" column="CategoryId" not-found="ignore" />
+        </bag>
+            
     </class>
     
 </hibernate-mapping>
