@@ -25,12 +25,12 @@
       
         <bag name="Users" table="TaskUser" access="nosetter.camelcase-underscore" >
           <key column="TaskId" />
-          <many-to-many class="User" column="UserId" not-found="ignore" />
+          <many-to-many class="User" column="UserId" />
         </bag>
       
         <bag name="Categories" table="TaskCategory" access="nosetter.camelcase-underscore" >
           <key column="TaskId" />
-          <many-to-many class="Category" column="CategoryId" not-found="ignore" />
+          <many-to-many class="Category" column="CategoryId" />
         </bag>
             
     </class>

@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Common;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
+    [LoggingNHibernateSessions]
     public class TaskUsersController : ApiController
     {
         private readonly ICommonRepository _commonRepository;
@@ -43,7 +45,9 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Users
                 .ToList()
-                .ForEach(x => _commonRepository.Delete(x));
+                .ForEach(x => task.Users.Remove(x));
+
+            _commonRepository.Save(task);
         }
 
         public void Delete(long taskId, Guid userId)
@@ -53,8 +57,10 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             var user = task.Users.FirstOrDefault(x => x.UserId == userId);
             if(user != null)
             {
-                _commonRepository.Delete(user);
+                task.Users.Remove(user);
             }
+
+            _commonRepository.Save(task);
         }       
         
         public void Put(long taskId, Guid userId)
@@ -79,7 +85,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             }
 
             task.Users.Add(user);
-
+            
             _commonRepository.Save(task);
         }
     }

@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
@@ -21,9 +24,30 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return _userRepository.AllUsers();
         }
 
-        public User Post(User user)
+        public Data.Model.User Get(Guid id)
         {
-            return _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname, user.Email);
+            var user = _userRepository.AllUsers().FirstOrDefault(x => x.UserId == id);
+            if(user == null)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.NotFound,
+                            ReasonPhrase = string.Format("User {0} not found", id)
+                        });
+            }
+
+            return user;
+        }
+        
+        public HttpResponseMessage Post(HttpRequestMessage request, User user)
+        {
+            var newUser = _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname, user.Email);
+
+            var response = request.CreateResponse(HttpStatusCode.Created, newUser);
+            response.Headers.Add("Location", "/api/users/" + newUser.UserId);
+
+            return response;
         }
     }
 }
