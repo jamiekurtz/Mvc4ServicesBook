@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace MVC4ServicesBook.Data.Model
 {
@@ -11,11 +10,5 @@ namespace MVC4ServicesBook.Data.Model
         public virtual string Username { get; set; }
         public virtual string Email { get; set; }
         public virtual byte[] Timestamp { get; set; }
-
-        private readonly IList<Task> _tasks = new List<Task>();
-        public virtual IList<Task> Tasks
-        {
-            get { return _tasks; }
-        }
     }
 }

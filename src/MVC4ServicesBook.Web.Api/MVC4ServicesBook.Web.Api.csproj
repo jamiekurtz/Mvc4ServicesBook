@@ -137,6 +137,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\TaskCategoriesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="HttpTaskFetcher.cs" />
     <Compile Include="IHttpTaskFetcher.cs" />

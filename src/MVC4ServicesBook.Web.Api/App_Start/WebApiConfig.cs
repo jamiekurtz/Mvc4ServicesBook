@@ -25,6 +25,11 @@ namespace MVC4ServicesBook.Web.Api
                 name: "TaskUsersApiRoute",
                 routeTemplate: "api/tasks/{taskId}/users/{userId}",
                 defaults: new {controller = "TaskUsers", userId = RouteParameter.Optional});
+
+            config.Routes.MapHttpRoute(
+                name: "TaskCategoriesApiRoute",
+                routeTemplate: "api/tasks/{taskId}/categories/{categoryId}",
+                defaults: new {controller = "TaskCategories", categoryId = RouteParameter.Optional});
         }
     }
 }

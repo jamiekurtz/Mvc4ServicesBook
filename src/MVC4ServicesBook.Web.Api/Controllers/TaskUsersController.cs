@@ -55,10 +55,12 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             var task = _taskFetcher.GetTask(taskId);
 
             var user = task.Users.FirstOrDefault(x => x.UserId == userId);
-            if(user != null)
+            if(user == null)
             {
-                task.Users.Remove(user);
+                return;
             }
+
+            task.Users.Remove(user);
 
             _commonRepository.Save(task);
         }       

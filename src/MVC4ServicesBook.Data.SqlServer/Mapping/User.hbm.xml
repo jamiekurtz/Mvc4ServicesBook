@@ -17,11 +17,6 @@
         <property name="Username" not-null="true" type="string" />
         <property name="Email" not-null="false" type="string" />
 
-        <bag name="Tasks" table="TaskUser" access="nosetter.camelcase-underscore" >
-          <key column="UserId" />
-          <many-to-many class="Task" column="TaskId" />
-        </bag>
-
     </class>
     
 </hibernate-mapping>
