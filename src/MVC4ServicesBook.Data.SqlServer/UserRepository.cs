@@ -13,13 +13,11 @@ namespace MVC4ServicesBook.Data.SqlServer
     {
         private readonly ISession _session;
         private readonly ISqlCommandFactory _sqlCommandFactory;
-        private readonly IDatabaseValueParser _valueParser;
 
-        public UserRepository(ISession session, ISqlCommandFactory sqlCommandFactory, IDatabaseValueParser valueParser)
+        public UserRepository(ISession session, ISqlCommandFactory sqlCommandFactory)
         {
             _session = session;
             _sqlCommandFactory = sqlCommandFactory;
-            _valueParser = valueParser;
         }
 
         public IQueryable<User> AllUsers()

@@ -19,6 +19,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             _userManager = userManager;
         }
 
+        [Queryable]
         public IQueryable<Data.Model.User> Get()
         {
             return _userRepository.AllUsers();
