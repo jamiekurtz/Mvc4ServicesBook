@@ -63,10 +63,16 @@ namespace MVC4ServicesBook.Web.Common
 
             logger.Error("Exception occured:", exception);
 
+            var reasonPhrase = GetExceptionMessage(exception);
+            if (reasonPhrase.Length > MaxStatusDescriptionLength)
+            {
+                reasonPhrase = reasonPhrase.Substring(0, MaxStatusDescriptionLength);
+            }
+
             filterContext.Response = new HttpResponseMessage
                                          {
                                              StatusCode = HttpStatusCode.InternalServerError,
-                                             ReasonPhrase = GetExceptionMessage(exception)
+                                             ReasonPhrase = reasonPhrase
                                          };
         }
 
