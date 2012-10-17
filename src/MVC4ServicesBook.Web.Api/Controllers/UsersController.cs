@@ -27,7 +27,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
         public Data.Model.User Get(Guid id)
         {
-            var user = _userRepository.AllUsers().FirstOrDefault(x => x.UserId == id);
+            var user = _userRepository.GetUser(id);
             if(user == null)
             {
                 throw new HttpResponseException(
