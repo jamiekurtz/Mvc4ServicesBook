@@ -118,7 +118,6 @@
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Views\AllUsers.sql" />
     <Build Include="dbo\Stored Procedures\SaveUser.sql" />
-    <Build Include="dbo\Stored Procedures\GetTaskUsers.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Scripts\Script.PostDeployment.sql" />

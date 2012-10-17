@@ -46,32 +46,5 @@ namespace MVC4ServicesBook.Data.SqlServer
                 command.ExecuteNonQuery();
             }
         }
-
-        public IEnumerable<User> GetUsersForTask(long taskId)
-        {
-            using(var command = _sqlCommandFactory.GetCommand())
-            {
-                command.CommandText = "dbo.GetTaskUsers";
-                command.CommandType = CommandType.StoredProcedure;
-
-                command.Parameters.AddWithValue("@taskId", taskId);
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while(reader.Read())
-                    {
-                        yield return new User
-                                         {
-                                             UserId = _valueParser.ParseGuid(reader["UserId"]),
-                                             Username = _valueParser.ParseString(reader["Username"]),
-                                             Firstname = _valueParser.ParseString(reader["Firstname"]),
-                                             Lastname = _valueParser.ParseString(reader["Lastname"]),
-                                             Email = _valueParser.ParseString(reader["Email"]),
-                                             Timestamp = _valueParser.ParseByteArray(reader["ts"])
-                                         };
-                    }
-                }
-            }
-        }
     }
 }
