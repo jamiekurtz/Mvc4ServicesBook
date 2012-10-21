@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using MVC4ServicesBook.Common;
 using MVC4ServicesBook.Data.Model;
 using NHibernate;
 using NHibernate.Linq;

@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeAdapter.cs" />
-    <Compile Include="IClock.cs" />
+    <Compile Include="IDateTime.cs" />
     <Compile Include="IDatabaseValueParser.cs" />
     <Compile Include="DatabaseValueParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

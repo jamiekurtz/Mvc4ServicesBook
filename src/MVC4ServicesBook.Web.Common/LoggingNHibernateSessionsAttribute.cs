@@ -20,7 +20,7 @@ namespace MVC4ServicesBook.Web.Common
             LogAction(actionContext.ActionDescriptor, "ENTERING  ");
             BeginTransaction();
         }
-
+        
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             EndTransaction(actionExecutedContext);

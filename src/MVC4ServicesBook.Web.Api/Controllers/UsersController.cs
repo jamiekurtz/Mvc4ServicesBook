@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Common;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
@@ -25,6 +26,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return _userRepository.AllUsers();
         }
 
+        [LoggingNHibernateSessions]
         public Data.Model.User Get(Guid id)
         {
             var user = _userRepository.GetUser(id);
@@ -40,7 +42,8 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             return user;
         }
-        
+
+        [LoggingNHibernateSessions]
         public HttpResponseMessage Post(HttpRequestMessage request, User user)
         {
             var newUser = _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname, user.Email);

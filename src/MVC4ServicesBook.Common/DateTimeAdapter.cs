@@ -2,7 +2,7 @@
 
 namespace MVC4ServicesBook.Common
 {
-    public class DateTimeAdapter : IClock
+    public class DateTimeAdapter : IDateTime
     {
         public DateTime UtcNow
         {

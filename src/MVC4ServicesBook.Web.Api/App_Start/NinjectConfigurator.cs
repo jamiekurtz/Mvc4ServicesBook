@@ -31,7 +31,7 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             var loggerForWebSite = LogManager.GetLogger("Mvc4ServicesBookWebsite");
             container.Bind<ILog>().ToConstant(loggerForWebSite);
 
-            container.Bind<IClock>().To<DateTimeAdapter>();
+            container.Bind<IDateTime>().To<DateTimeAdapter>();
             container.Bind<IDatabaseValueParser>().To<DatabaseValueParser>();
 
             container.Bind<IHttpTaskFetcher>().To<HttpTaskFetcher>();

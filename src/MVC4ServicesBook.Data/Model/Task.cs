@@ -12,7 +12,7 @@ namespace MVC4ServicesBook.Data.Model
         public virtual DateTime? DateCompleted { get; set; }
         public virtual Priority Priority { get; set; }
         public virtual Status Status { get; set; }
-        public virtual byte[] Timestamp { get; set; }
+        public virtual byte[] Version { get; set; }
         public virtual DateTime CreatedDate { get; set; }
 
         private readonly IList<User> _users = new List<User>();

@@ -10,7 +10,7 @@
           <generator class="identity"/>
         </id>
 
-        <version name="Timestamp" generated="always" unsaved-value="null" type="BinaryBlob" >
+        <version name="Version" generated="always" unsaved-value="null" type="BinaryBlob" >
           <column name="ts" not-null="true" sql-type="rowversion"/>
         </version>
   

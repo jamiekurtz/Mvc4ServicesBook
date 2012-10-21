@@ -2,7 +2,7 @@ using System;
 
 namespace MVC4ServicesBook.Common
 {
-    public interface IClock
+    public interface IDateTime
     {
         DateTime UtcNow { get; }
     }
