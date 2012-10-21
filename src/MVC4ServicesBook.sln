@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC4ServicesBook.Data.SqlSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC4ServicesBook.Web.Common", "MVC4ServicesBook.Web.Common\MVC4ServicesBook.Web.Common.csproj", "{2BF83C7E-173B-4D8B-A0B8-858A4F0DAC6F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{086988DF-F96B-47EF-91CB-0732583A6CB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC4ServicesBook.Common.Tests", "MVC4ServicesBook.Common.Tests\MVC4ServicesBook.Common.Tests.csproj", "{465DA1DE-8CC2-487E-9CD7-ACFD06A94214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC4ServicesBook.Web.Api.Tests", "MVC4ServicesBook.Web.Api.Tests\MVC4ServicesBook.Web.Api.Tests.csproj", "{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,8 +53,20 @@ Global
 		{2BF83C7E-173B-4D8B-A0B8-858A4F0DAC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BF83C7E-173B-4D8B-A0B8-858A4F0DAC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BF83C7E-173B-4D8B-A0B8-858A4F0DAC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{465DA1DE-8CC2-487E-9CD7-ACFD06A94214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{465DA1DE-8CC2-487E-9CD7-ACFD06A94214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{465DA1DE-8CC2-487E-9CD7-ACFD06A94214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{465DA1DE-8CC2-487E-9CD7-ACFD06A94214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{465DA1DE-8CC2-487E-9CD7-ACFD06A94214} = {086988DF-F96B-47EF-91CB-0732583A6CB5}
+		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953} = {086988DF-F96B-47EF-91CB-0732583A6CB5}
 	EndGlobalSection
 EndGlobal

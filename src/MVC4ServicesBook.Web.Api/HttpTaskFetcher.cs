@@ -17,7 +17,7 @@ namespace MVC4ServicesBook.Web.Api
 
         public Task GetTask(long taskId)
         {
-            var task = _commonRepository.Get<Data.Model.Task>(taskId);
+            var task = _commonRepository.Get<Task>(taskId);
             if (task == null)
             {
                 throw new HttpResponseException(
