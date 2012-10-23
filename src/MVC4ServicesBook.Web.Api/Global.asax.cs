@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 using System.Web.Mvc;
-//using System.Web.Optimization;
 using System.Web.Routing;
 using MVC4ServicesBook.Web.Api.App_Start;
 using Ninject;
@@ -13,14 +12,16 @@ namespace MVC4ServicesBook.Web.Api
         {
             AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
-
             var container = new StandardKernel();
             var containerConfigurator = new NinjectConfigurator();
             containerConfigurator.Configure(container);
+
+
+            GlobalConfiguration.Configuration.MessageHandlers.Add(container.Get<BasicAuthorizationMessageHandler>());
+
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }
 }

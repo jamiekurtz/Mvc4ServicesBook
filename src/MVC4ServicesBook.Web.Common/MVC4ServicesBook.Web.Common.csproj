@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoggingNHibernateSessionsAttribute.cs" />
-    <Compile Include="Security\BasicAuthorizationMessageHandler.cs" />
     <Compile Include="Security\IMembershipAdapter.cs" />
     <Compile Include="Security\MembershipAdapter.cs" />
     <Compile Include="NinjectDependencyResolver.cs" />
@@ -97,7 +96,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

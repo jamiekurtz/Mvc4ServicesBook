@@ -23,6 +23,8 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         [Queryable]
         public IQueryable<Data.Model.User> Get()
         {
+            var user = User;
+
             return _userRepository.AllUsers();
         }
 
@@ -48,8 +50,17 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         {
             var newUser = _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname, user.Email);
 
+            var href = "/api/users/" + newUser.UserId;
+            newUser.Links.Add(
+                new Link
+                    {
+                        Rel = "self",
+                        Title = "self",
+                        Href = href
+                    });
+
             var response = request.CreateResponse(HttpStatusCode.Created, newUser);
-            response.Headers.Add("Location", "/api/users/" + newUser.UserId);
+            response.Headers.Add("Location", href);
 
             return response;
         }

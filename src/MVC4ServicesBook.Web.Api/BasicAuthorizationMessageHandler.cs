@@ -1,13 +1,17 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using MVC4ServicesBook.Data.Model;
+using MVC4ServicesBook.Web.Common.Security;
+using NHibernate;
 
-namespace MVC4ServicesBook.Web.Common.Security
+namespace MVC4ServicesBook.Web.Api
 {
     public class BasicAuthorizationMessageHandler : DelegatingHandler
     {
@@ -16,15 +20,12 @@ namespace MVC4ServicesBook.Web.Common.Security
         public const char AuthorizationHeaderSeparator = ':';
 
         private readonly IMembershipAdapter _membershipAdapter;
+        private readonly ISessionFactory _sessionFactory;
 
-        public BasicAuthorizationMessageHandler()
-            : this(new MembershipAdapter())
-        {
-        }
-
-        public BasicAuthorizationMessageHandler(IMembershipAdapter membershipAdapter)
+        public BasicAuthorizationMessageHandler(IMembershipAdapter membershipAdapter, ISessionFactory sessionFactory)
         {
             _membershipAdapter = membershipAdapter;
+            _sessionFactory = sessionFactory;
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -41,16 +42,17 @@ namespace MVC4ServicesBook.Web.Common.Security
             }
 
             var encodedCredentials = authHeader.Parameter;
-            var credentials = Encoding.ASCII.GetString(Convert.FromBase64String(encodedCredentials));
-            var parts = credentials.Split(AuthorizationHeaderSeparator);
+            var credentialBytes = Convert.FromBase64String(encodedCredentials);
+            var credentials = Encoding.ASCII.GetString(credentialBytes);
+            var credentialParts = credentials.Split(AuthorizationHeaderSeparator);
 
-            if(parts.Length != 2)
+            if(credentialParts.Length != 2)
             {
                 return CreateUnauthorizedResponse();
             }
 
-            var username = parts[0].Trim();
-            var password = parts[1].Trim();
+            var username = credentialParts[0].Trim();
+            var password = credentialParts[1].Trim();
 
             if (!_membershipAdapter.ValidateUser(username, password))
             {
@@ -64,12 +66,23 @@ namespace MVC4ServicesBook.Web.Common.Security
 
         private void SetPrincipal(string username)
         {
-            var identity = new GenericIdentity(username, BasicScheme);
-            //var roles = _membershipAdapter.GetRolesForUser(username);
-            var roles = new[] {"admin"};
-            var principal = new GenericPrincipal(identity, roles);
+            var roles = _membershipAdapter.GetRolesForUser(username);
+            var user = _membershipAdapter.GetUser(username);
 
+            User modelUser;
+            using(var session = _sessionFactory.OpenSession())
+            {
+                modelUser = session.Get<User>(user.UserId);
+            }
+
+            var identity = new GenericIdentity(user.Username, BasicScheme);
+            identity.AddClaim(new Claim(ClaimTypes.GivenName, modelUser.Firstname));
+            identity.AddClaim(new Claim(ClaimTypes.Surname, modelUser.Lastname));
+            identity.AddClaim(new Claim(ClaimTypes.Email, modelUser.Email));
+
+            var principal = new GenericPrincipal(identity, roles);
             Thread.CurrentPrincipal = principal;
+
             if (HttpContext.Current != null)
             {
                 HttpContext.Current.User = principal;
@@ -81,9 +94,9 @@ namespace MVC4ServicesBook.Web.Common.Security
             var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
             response.Headers.Add(ChallengeAuthorizationHeaderName, BasicScheme);
 
-            var tsc = new TaskCompletionSource<HttpResponseMessage>();
-            tsc.SetResult(response);
-            return tsc.Task;
+            var taskCompletionSource = new TaskCompletionSource<HttpResponseMessage>();
+            taskCompletionSource.SetResult(response);
+            return taskCompletionSource.Task;
         }
     }
 }
