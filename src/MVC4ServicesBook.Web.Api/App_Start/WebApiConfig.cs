@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using System.Web.Security;
+using MVC4ServicesBook.Web.Common.Security;
 
 namespace MVC4ServicesBook.Web.Api
 {
@@ -30,6 +32,8 @@ namespace MVC4ServicesBook.Web.Api
                 name: "TaskCategoriesApiRoute",
                 routeTemplate: "api/tasks/{taskId}/categories/{categoryId}",
                 defaults: new {controller = "TaskCategories", categoryId = RouteParameter.Optional});
+
+            config.MessageHandlers.Add(new BasicAuthorizationMessageHandler());
         }
     }
 }

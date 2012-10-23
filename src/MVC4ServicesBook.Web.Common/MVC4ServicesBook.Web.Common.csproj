@@ -47,6 +47,7 @@
       <HintPath>..\..\lib\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoggingNHibernateSessionsAttribute.cs" />
+    <Compile Include="Security\BasicAuthorizationMessageHandler.cs" />
     <Compile Include="Security\IMembershipAdapter.cs" />
     <Compile Include="Security\MembershipAdapter.cs" />
     <Compile Include="NinjectDependencyResolver.cs" />

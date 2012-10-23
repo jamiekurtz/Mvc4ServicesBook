@@ -8,5 +8,7 @@ namespace MVC4ServicesBook.Web.Common.Security
         MembershipUserWrapper GetUser(Guid userId);
         MembershipUserWrapper CreateUser(string username, string password, string email);
         void SaveUser(Guid userId, string email);
+        bool ValidateUser(string username, string password);
+        string[] GetRolesForUser(string username);
     }
 }

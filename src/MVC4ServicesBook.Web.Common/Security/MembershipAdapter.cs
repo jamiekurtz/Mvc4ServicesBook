@@ -45,5 +45,16 @@ namespace MVC4ServicesBook.Web.Common.Security
 
             Membership.UpdateUser(user);
         }        
+
+        public bool ValidateUser(string username, string password)
+        {
+            return true;
+            //return Membership.ValidateUser(username, password);
+        }
+
+        public string[] GetRolesForUser(string username)
+        {
+            return Roles.GetRolesForUser(username);
+        }
     }
 }
