@@ -22,6 +22,7 @@
 
         <many-to-one class="Status" name="Status" column="StatusId" />
         <many-to-one class="Priority" name="Priority" column="PriorityId" />
+        <many-to-one class="User" name="CreatedBy" column="CreatedUserId" />
       
         <bag name="Users" table="TaskUser" access="nosetter.camelcase-underscore" >
           <key column="TaskId" />

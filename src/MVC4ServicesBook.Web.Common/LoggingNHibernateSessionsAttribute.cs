@@ -5,7 +5,6 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using NHibernate;
-using NHibernate.Context;
 using Ninject;
 using log4net;
 
@@ -24,22 +23,17 @@ namespace MVC4ServicesBook.Web.Common
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             EndTransaction(actionExecutedContext);
-            UnbindSession();
+            CloseSession();
             LogException(actionExecutedContext);
             LogAction(actionExecutedContext.ActionContext.ActionDescriptor, "EXITING  ");
         }
 
-        private void UnbindSession()
+        private void CloseSession()
         {
             var container = GetContainer();
-            var sessionFactory = container.Get<ISessionFactory>();
-            if (CurrentSessionContext.HasBind(sessionFactory))
-            {
-                var session = sessionFactory.GetCurrentSession();
-                session.Close();
-                session.Dispose();
-                CurrentSessionContext.Unbind(sessionFactory);
-            }
+            var session = container.Get<ISession>();
+            session.Close();
+            session.Dispose();
         }
 
         private void LogAction(HttpActionDescriptor actionDescriptor, string prefix)
@@ -121,8 +115,7 @@ namespace MVC4ServicesBook.Web.Common
         private ISession GetCurrentSession()
         {
             var container = GetContainer();
-            var sessionFactory = container.Get<ISessionFactory>();
-            var session = sessionFactory.GetCurrentSession();
+            var session = container.Get<ISession>();
             return session;
         }
 

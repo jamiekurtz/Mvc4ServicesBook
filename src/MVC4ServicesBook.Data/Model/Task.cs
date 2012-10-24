@@ -14,6 +14,7 @@ namespace MVC4ServicesBook.Data.Model
         public virtual Status Status { get; set; }
         public virtual byte[] Version { get; set; }
         public virtual DateTime CreatedDate { get; set; }
+        public virtual User CreatedBy { get; set; }
 
         private readonly IList<User> _users = new List<User>();
         public virtual IList<User> Users

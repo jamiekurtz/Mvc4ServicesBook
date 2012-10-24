@@ -4,6 +4,7 @@ using System.Web.Http;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
 using MVC4ServicesBook.Web.Common;
+using MVC4ServicesBook.Web.Common.Security;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
@@ -12,11 +13,13 @@ namespace MVC4ServicesBook.Web.Api.Controllers
     {
         private readonly ICommonRepository _commonRepository;
         private readonly IHttpTaskFetcher _taskFetcher;
+        private readonly IUserSession _userSession;
 
-        public TasksController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher)
+        public TasksController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher, IUserSession userSession)
         {
             _commonRepository = commonRepository;
             _taskFetcher = taskFetcher;
+            _userSession = userSession;
         }
 
         public Task Get(long id)
@@ -29,7 +32,10 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
         public IEnumerable<Task> Get()
         {
-            var modelTasks = _commonRepository.GetAll<Data.Model.Task>();
+            var modelTasks =
+                _commonRepository.Search<Data.Model.Task>(
+                    x =>
+                    x.CreatedBy.UserId == _userSession.UserId || x.Users.Any(user => user.UserId == _userSession.UserId));
 
             var tasks = modelTasks.Select(CreateTaskFromModel).ToList();
 

@@ -76,6 +76,7 @@ namespace MVC4ServicesBook.Web.Api
             }
 
             var identity = new GenericIdentity(user.Username, BasicScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Sid, modelUser.UserId.ToString()));
             identity.AddClaim(new Claim(ClaimTypes.GivenName, modelUser.Firstname));
             identity.AddClaim(new Claim(ClaimTypes.Surname, modelUser.Lastname));
             identity.AddClaim(new Claim(ClaimTypes.Email, modelUser.Email));
