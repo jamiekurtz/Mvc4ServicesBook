@@ -8,6 +8,7 @@ using MVC4ServicesBook.Web.Common;
 using MVC4ServicesBook.Web.Common.Security;
 using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Context;
 using Ninject;
 using Ninject.Activation;
 using log4net;
@@ -56,13 +57,22 @@ namespace MVC4ServicesBook.Web.Api.App_Start
         {
             var sessionFactory = new Configuration().Configure().BuildSessionFactory();
             container.Bind<ISessionFactory>().ToConstant(sessionFactory);
-            container.Bind<ISession>().ToMethod(CreateSession).InRequestScope();
+            container.Bind<ISession>().ToMethod(CreateSession); //.InRequestScope();
         }
 
         private ISession CreateSession(IContext context)
         {
+            //var sessionFactory = context.Kernel.Get<ISessionFactory>();
+            //return sessionFactory.OpenSession();
+
             var sessionFactory = context.Kernel.Get<ISessionFactory>();
-            return sessionFactory.OpenSession();
+            if (!CurrentSessionContext.HasBind(sessionFactory))
+            {
+                var session = sessionFactory.OpenSession();
+                CurrentSessionContext.Bind(session);
+            }
+
+            return sessionFactory.GetCurrentSession();
         }
     }
 }
