@@ -8,7 +8,6 @@ using MVC4ServicesBook.Data.SqlServer;
 using MVC4ServicesBook.Web.Common;
 using MVC4ServicesBook.Web.Common.Security;
 using NHibernate;
-using NHibernate.Cfg;
 using NHibernate.Context;
 using Ninject;
 using Ninject.Activation;
@@ -64,11 +63,7 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             var sessionFactory = FluentNHibernate.Cfg.Fluently.Configure()
                 .Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.FromConnectionStringWithKey("Mvc4ServicesDb")))
                 .CurrentSessionContext("web")
-                .Mappings(m =>
-                              {
-                                  m.HbmMappings.AddFromAssemblyOf<CommonRepository>();
-                                  m.FluentMappings.AddFromAssemblyOf<CommonRepository>();
-                              })
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<CommonRepository>())
                 .BuildSessionFactory();
 
             container.Bind<ISessionFactory>().ToConstant(sessionFactory);
@@ -77,9 +72,6 @@ namespace MVC4ServicesBook.Web.Api.App_Start
 
         private ISession CreateSession(IContext context)
         {
-            //var sessionFactory = context.Kernel.Get<ISessionFactory>();
-            //return sessionFactory.OpenSession();
-
             var sessionFactory = context.Kernel.Get<ISessionFactory>();
             if (!CurrentSessionContext.HasBind(sessionFactory))
             {

@@ -31,11 +31,6 @@ namespace MVC4ServicesBook.Web.Common
 
         private void CloseSession()
         {
-            //var container = GetContainer();
-            //var session = container.Get<ISession>();
-            //session.Close();
-            //session.Dispose();
-
             var container = GetContainer();
             var sessionFactory = container.Get<ISessionFactory>();
             if (CurrentSessionContext.HasBind(sessionFactory))

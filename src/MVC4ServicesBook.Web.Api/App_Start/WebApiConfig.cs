@@ -1,6 +1,4 @@
 ﻿using System.Web.Http;
-using System.Web.Security;
-using MVC4ServicesBook.Web.Common.Security;
 
 namespace MVC4ServicesBook.Web.Api
 {
