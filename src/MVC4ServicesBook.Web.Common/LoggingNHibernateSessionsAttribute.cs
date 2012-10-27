@@ -74,6 +74,8 @@ namespace MVC4ServicesBook.Web.Common
                 reasonPhrase = reasonPhrase.Substring(0, MaxStatusDescriptionLength);
             }
 
+            reasonPhrase = reasonPhrase.Replace("\r\n", " ");
+
             filterContext.Response = new HttpResponseMessage
                                          {
                                              StatusCode = HttpStatusCode.InternalServerError,
