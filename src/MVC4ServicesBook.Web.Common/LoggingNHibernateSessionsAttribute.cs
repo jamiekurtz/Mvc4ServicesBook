@@ -122,10 +122,6 @@ namespace MVC4ServicesBook.Web.Common
 
         private ISession GetCurrentSession()
         {
-            //var container = GetContainer();
-            //var session = container.Get<ISession>();
-            //return session;
-
             var container = GetContainer();
             var sessionFactory = container.Get<ISessionFactory>();
             var session = sessionFactory.GetCurrentSession();
