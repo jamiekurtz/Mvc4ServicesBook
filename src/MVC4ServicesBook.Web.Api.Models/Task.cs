@@ -10,6 +10,7 @@ namespace MVC4ServicesBook.Web.Api.Models
         public DateTime? StartDate { get; set; }
         public DateTime? DueDate { get; set; }
         public DateTime? DateCompleted { get; set; }
+        public DateTime CreatedDate { get; set; }
         public List<Category> Categories { get; set; }
         public Priority Priority { get; set; }
         public Status Status { get; set; }

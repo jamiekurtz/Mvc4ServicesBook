@@ -13,16 +13,16 @@ using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api
 {
-    public class BasicAuthorizationMessageHandler : DelegatingHandler
+    public class BasicAuthenticationMessageHandler : DelegatingHandler
     {
         public const string BasicScheme = "Basic";
-        public const string ChallengeAuthorizationHeaderName = "WWW-Authenticate";
+        public const string ChallengeAuthenticationHeaderName = "WWW-Authenticate";
         public const char AuthorizationHeaderSeparator = ':';
 
         private readonly IMembershipAdapter _membershipAdapter;
         private readonly ISessionFactory _sessionFactory;
 
-        public BasicAuthorizationMessageHandler(IMembershipAdapter membershipAdapter, ISessionFactory sessionFactory)
+        public BasicAuthenticationMessageHandler(IMembershipAdapter membershipAdapter, ISessionFactory sessionFactory)
         {
             _membershipAdapter = membershipAdapter;
             _sessionFactory = sessionFactory;
@@ -75,11 +75,7 @@ namespace MVC4ServicesBook.Web.Api
                 modelUser = session.Get<User>(user.UserId);
             }
 
-            var identity = new GenericIdentity(user.Username, BasicScheme);
-            identity.AddClaim(new Claim(ClaimTypes.Sid, modelUser.UserId.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.GivenName, modelUser.Firstname));
-            identity.AddClaim(new Claim(ClaimTypes.Surname, modelUser.Lastname));
-            identity.AddClaim(new Claim(ClaimTypes.Email, modelUser.Email));
+            var identity = CreateIdentity(user.Username, modelUser);
 
             var principal = new GenericPrincipal(identity, roles);
             Thread.CurrentPrincipal = principal;
@@ -90,10 +86,20 @@ namespace MVC4ServicesBook.Web.Api
             }
         }
 
+        private GenericIdentity CreateIdentity(string username, User modelUser)
+        {
+            var identity = new GenericIdentity(username, BasicScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Sid, modelUser.UserId.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.GivenName, modelUser.Firstname));
+            identity.AddClaim(new Claim(ClaimTypes.Surname, modelUser.Lastname));
+            identity.AddClaim(new Claim(ClaimTypes.Email, modelUser.Email));
+            return identity;
+        }
+
         private Task<HttpResponseMessage> CreateUnauthorizedResponse()
         {
             var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            response.Headers.Add(ChallengeAuthorizationHeaderName, BasicScheme);
+            response.Headers.Add(ChallengeAuthenticationHeaderName, BasicScheme);
 
             var taskCompletionSource = new TaskCompletionSource<HttpResponseMessage>();
             taskCompletionSource.SetResult(response);

@@ -21,15 +21,12 @@ namespace MVC4ServicesBook.Web.Common
 
         public object GetService(Type serviceType)
         {
-            return serviceType == null ? null : _container.TryGet(serviceType);
+            return _container.TryGet(serviceType);
         }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return
-                serviceType == null
-                    ? null
-                    : _container.GetAll(serviceType);
+            return _container.GetAll(serviceType);
         }
 
         public IDependencyScope BeginScope()

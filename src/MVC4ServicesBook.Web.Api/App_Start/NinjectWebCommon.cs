@@ -58,7 +58,7 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             var containerConfigurator = new NinjectConfigurator();
             containerConfigurator.Configure(kernel);
 
-            GlobalConfiguration.Configuration.MessageHandlers.Add(kernel.Get<BasicAuthorizationMessageHandler>());
+            GlobalConfiguration.Configuration.MessageHandlers.Add(kernel.Get<BasicAuthenticationMessageHandler>());
         }
     }
 }

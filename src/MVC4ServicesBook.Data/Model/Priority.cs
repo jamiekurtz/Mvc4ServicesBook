@@ -1,6 +1,6 @@
 namespace MVC4ServicesBook.Data.Model
 {
-    public class Priority
+    public class Priority : IVersionedModelObject
     {
         public virtual long PriorityId { get; set; }
         public virtual string Name { get; set; }

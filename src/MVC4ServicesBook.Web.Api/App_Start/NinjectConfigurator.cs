@@ -22,8 +22,8 @@ namespace MVC4ServicesBook.Web.Api.App_Start
         {
             AddBindings(container);
 
-            var ninjectControllerFactory = new NinjectDependencyResolver(container);
-            GlobalConfiguration.Configuration.DependencyResolver = ninjectControllerFactory;
+            var resolver = new NinjectDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = resolver;
         }
 
         private void AddBindings(IKernel container)
@@ -60,8 +60,11 @@ namespace MVC4ServicesBook.Web.Api.App_Start
 
         private void ConfigureNHibernate(IKernel container)
         {
-            var sessionFactory = FluentNHibernate.Cfg.Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.FromConnectionStringWithKey("Mvc4ServicesDb")))
+            var sessionFactory = FluentNHibernate
+                .Cfg.Fluently.Configure()
+                .Database(
+                    MsSqlConfiguration.MsSql2008.ConnectionString(
+                        c => c.FromConnectionStringWithKey("Mvc4ServicesDb")))
                 .CurrentSessionContext("web")
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<CommonRepository>())
                 .BuildSessionFactory();

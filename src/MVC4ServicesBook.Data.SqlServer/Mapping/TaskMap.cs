@@ -3,7 +3,7 @@ using MVC4ServicesBook.Data.Model;
 
 namespace MVC4ServicesBook.Data.SqlServer.Mapping
 {
-    public class TaskMap : ClassMap<Task>
+    public class TaskMap : VersionedClassMap<Task>
     {
         public TaskMap()
         {
@@ -12,7 +12,6 @@ namespace MVC4ServicesBook.Data.SqlServer.Mapping
             Map(x => x.StartDate).Nullable();
             Map(x => x.DueDate).Nullable();
             Map(x => x.DateCompleted).Nullable();
-            Version(x => x.Version).Column("ts").CustomSqlType("Rowversion").Generated.Always().UnsavedValue("null");
 
             References(x => x.Status, "StatusId");
             References(x => x.Priority, "PriorityId");

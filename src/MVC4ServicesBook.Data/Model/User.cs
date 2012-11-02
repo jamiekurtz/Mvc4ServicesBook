@@ -2,7 +2,7 @@
 
 namespace MVC4ServicesBook.Data.Model
 {
-    public class User
+    public class User : IVersionedModelObject
     {
         public virtual Guid UserId { get; set; }
         public virtual string Firstname { get; set; }

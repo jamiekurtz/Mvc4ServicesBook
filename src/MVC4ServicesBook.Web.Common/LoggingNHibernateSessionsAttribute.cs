@@ -136,7 +136,7 @@ namespace MVC4ServicesBook.Web.Common
                 return resolver.Container;
             }
 
-            throw new InvalidOperationException("NinjectDependencyResolver not being used as the MVC controller resolver");
+            throw new InvalidOperationException("NinjectDependencyResolver not being used as the MVC dependency resolver");
         }
     }
 }

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ICommonRepository.cs" />
     <Compile Include="IUserRepository.cs" />
+    <Compile Include="IVersionedModelObject.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Priority.cs" />
     <Compile Include="Model\Status.cs" />

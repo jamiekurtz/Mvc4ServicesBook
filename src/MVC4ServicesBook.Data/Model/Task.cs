@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MVC4ServicesBook.Data.Model
 {
-    public class Task
+    public class Task : IVersionedModelObject
     {
         public virtual long TaskId { get; set; }
         public virtual string Subject { get; set; }

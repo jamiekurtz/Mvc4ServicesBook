@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MVC4ServicesBook.Common;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
 using MVC4ServicesBook.Web.Common;
@@ -51,6 +52,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                                StartDate = modelTask.StartDate,
                                DateCompleted = modelTask.DateCompleted,
                                DueDate = modelTask.DueDate,
+                               CreatedDate = modelTask.CreatedDate,
                                Status = new Status
                                             {
                                                 StatusId = modelTask.Status.StatusId,

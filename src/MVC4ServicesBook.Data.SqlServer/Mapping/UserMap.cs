@@ -1,10 +1,9 @@
 using System;
-using FluentNHibernate.Mapping;
 using MVC4ServicesBook.Data.Model;
 
 namespace MVC4ServicesBook.Data.SqlServer.Mapping
 {
-    public class UserMap : ClassMap<User>
+    public class UserMap : VersionedClassMap<User>
     {
         public UserMap()
         {
@@ -14,7 +13,6 @@ namespace MVC4ServicesBook.Data.SqlServer.Mapping
             Map(x => x.Firstname).Not.Nullable();
             Map(x => x.Lastname).Not.Nullable();
             Map(x => x.Email).Nullable();
-            Version(x => x.Version).Column("ts").CustomSqlType("Rowversion").Generated.Always().UnsavedValue("null");
         }
     }
 }
