@@ -1,4 +1,5 @@
-﻿using MVC4ServicesBook.Data;
+﻿using System.Collections.Generic;
+using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.Models;
 using MVC4ServicesBook.Web.Common.Security;
 
@@ -15,22 +16,23 @@ namespace MVC4ServicesBook.Web.Api
             _userRepository = userRepository;
         }
 
-        public User CreateUser(string username, string password, string firstname, string lastname, string email)
-        {
-            var wrapper = _membershipAdapter.CreateUser(username, password, email);
+public User CreateUser(string username, string password, string firstname, string lastname, string email)
+{
+    var wrapper = _membershipAdapter.CreateUser(username, password, email);
 
-            _userRepository.SaveUser(wrapper.UserId, firstname, lastname);
+    _userRepository.SaveUser(wrapper.UserId, firstname, lastname);
 
-            var modelUser = _userRepository.GetUser(wrapper.UserId);
+    var user = new User
+                    {
+                        UserId = wrapper.UserId,
+                        Username = username,
+                        Email = email,
+                        Firstname = firstname,
+                        Lastname = lastname,
+                        Links = new List<Link>()
+                    };
 
-            return new User
-                       {
-                           UserId = modelUser.UserId,
-                           Username = modelUser.Username,
-                           Email = modelUser.Email,
-                           Firstname = modelUser.Firstname,
-                           Lastname = modelUser.Lastname
-                       };
-        }
+    return user;
+}
     }
 }

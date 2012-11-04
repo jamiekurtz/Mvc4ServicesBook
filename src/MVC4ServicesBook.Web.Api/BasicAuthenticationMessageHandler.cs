@@ -28,7 +28,8 @@ namespace MVC4ServicesBook.Web.Api
             _sessionFactory = sessionFactory;
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+                                                               CancellationToken cancellationToken)
         {
             var authHeader = request.Headers.Authorization;
             if (authHeader == null)
@@ -46,7 +47,7 @@ namespace MVC4ServicesBook.Web.Api
             var credentials = Encoding.ASCII.GetString(credentialBytes);
             var credentialParts = credentials.Split(AuthorizationHeaderSeparator);
 
-            if(credentialParts.Length != 2)
+            if (credentialParts.Length != 2)
             {
                 return CreateUnauthorizedResponse();
             }
@@ -70,7 +71,7 @@ namespace MVC4ServicesBook.Web.Api
             var user = _membershipAdapter.GetUser(username);
 
             User modelUser;
-            using(var session = _sessionFactory.OpenSession())
+            using (var session = _sessionFactory.OpenSession())
             {
                 modelUser = session.Get<User>(user.UserId);
             }

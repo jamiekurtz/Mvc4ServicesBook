@@ -33,23 +33,9 @@ namespace MVC4ServicesBook.Web.Common.Security
             return CreateMembershipUserWrapper(user);
         }
 
-        public void SaveUser(Guid userId, string email)
-        {
-            var user = Membership.GetUser(userId);
-            if(user == null)
-            {
-                throw new ArgumentException(string.Format("UserId {0} not found", userId));
-            }
-
-            user.Email = email;
-
-            Membership.UpdateUser(user);
-        }        
-
         public bool ValidateUser(string username, string password)
         {
-            return true;
-            //return Membership.ValidateUser(username, password);
+            return Membership.ValidateUser(username, password);
         }
 
         public string[] GetRolesForUser(string username)

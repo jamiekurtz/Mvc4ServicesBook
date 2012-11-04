@@ -57,6 +57,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                        };
         }
 
+        [Authorize(Roles = "Administrators")]
         public HttpResponseMessage Post(HttpRequestMessage request, Category category)
         {
             var modelCategory = new Data.Model.Category
@@ -74,6 +75,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return response;
         }
 
+        [Authorize(Roles = "Administrators")]
         public HttpResponseMessage Delete()
         {
             var categories = _commonRepository.GetAll<Data.Model.Category>().ToList();
@@ -83,8 +85,9 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             }
 
             return new HttpResponseMessage(HttpStatusCode.OK);
-        }      
-        
+        }
+
+        [Authorize(Roles = "Administrators")]
         public HttpResponseMessage Delete(long id)
         {
             var category = _commonRepository.Get<Data.Model.Category>(id);
@@ -96,6 +99,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
+        [Authorize(Roles = "Administrators")]
         public Category Put(long id, Category category)
         {
             var modelCateogry = _commonRepository.Get<Data.Model.Category>(id);
