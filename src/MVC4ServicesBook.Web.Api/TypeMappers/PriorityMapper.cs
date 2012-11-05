@@ -24,5 +24,4 @@ namespace MVC4ServicesBook.Web.Api.TypeMappers
                        };
         }
     }
-
 }

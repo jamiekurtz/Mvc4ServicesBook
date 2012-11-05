@@ -17,7 +17,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         private readonly IHttpPriorityFetcher _priorityFetcher;
 
         public PrioritiesController(
-            ISession session, 
+            ISession session,
             IPriorityMapper priorityMapper,
             IHttpPriorityFetcher priorityFetcher)
         {

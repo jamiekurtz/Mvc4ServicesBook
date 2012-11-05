@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
@@ -18,10 +16,16 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         private readonly ISession _session;
         private readonly IUserMapper _userMapper;
         private readonly IHttpTaskFetcher _taskFetcher;
+        private readonly IHttpUserFetcher _userFetcher;
 
-        public TaskUsersController(IHttpTaskFetcher taskFetcher, ISession session, IUserMapper userMapper)
+        public TaskUsersController(
+            IHttpTaskFetcher taskFetcher, 
+            IHttpUserFetcher userFetcher,
+            ISession session, 
+            IUserMapper userMapper)
         {
             _taskFetcher = taskFetcher;
+            _userFetcher = userFetcher;
             _session = session;
             _userMapper = userMapper;
         }
@@ -72,16 +76,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 return;
             }
 
-            user = _session.Get<Data.Model.User>(userId);
-            if(user == null)
-            {
-                throw new HttpResponseException(
-                    new HttpResponseMessage
-                        {
-                            StatusCode = HttpStatusCode.NotFound,
-                            ReasonPhrase = string.Format("User {0} not found", userId)
-                        });
-            }
+            user = _userFetcher.GetUser(userId);
 
             task.Users.Add(user);
 

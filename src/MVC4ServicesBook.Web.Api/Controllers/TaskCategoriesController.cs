@@ -18,9 +18,9 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         private readonly IHttpCategoryFetcher _categoryFetcher;
 
         public TaskCategoriesController(
-            IHttpTaskFetcher taskFetcher, 
-            ISession session, 
-            ICategoryMapper categoryMapper, 
+            IHttpTaskFetcher taskFetcher,
+            ISession session,
+            ICategoryMapper categoryMapper,
             IHttpCategoryFetcher categoryFetcher)
         {
             _taskFetcher = taskFetcher;
@@ -44,7 +44,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             var task = _taskFetcher.GetTask(taskId);
 
             var category = task.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
-            if(category != null)
+            if (category != null)
             {
                 return;
             }

@@ -27,6 +27,7 @@ namespace MVC4ServicesBook.Web.Api.HttpFetchers
                             ReasonPhrase = string.Format("Priority {0} not found", priorityId)
                         });
             }
+
             return priority;
         }
     }

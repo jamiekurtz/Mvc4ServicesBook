@@ -3,37 +3,38 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
 using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     public class UsersController : ApiController
     {
-        private readonly IUserRepository _userRepository;
+        private readonly ISession _session;
         private readonly IUserManager _userManager;
         private readonly IUserMapper _userMapper;
         private readonly IHttpUserFetcher _userFetcher;
 
         public UsersController(
-            IUserRepository userRepository, 
-            IUserManager userManager, 
+            IUserManager userManager,
             IUserMapper userMapper,
-            IHttpUserFetcher userFetcher)
+            IHttpUserFetcher userFetcher,
+            ISession session)
         {
-            _userRepository = userRepository;
             _userManager = userManager;
             _userMapper = userMapper;
             _userFetcher = userFetcher;
+            _session = session;
         }
 
         [Queryable]
         public IQueryable<Data.Model.User> Get()
         {
-            return _userRepository.AllUsers();
+            return _session.Query<Data.Model.User>();
         }
 
         [LoggingNHibernateSessions]
@@ -46,7 +47,8 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         [LoggingNHibernateSessions]
         public HttpResponseMessage Post(HttpRequestMessage request, User user)
         {
-            var newUser = _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname, user.Email);
+            var newUser = _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname,
+                                                  user.Email);
 
             var href = newUser.Links.First(x => x.Rel == "self").Href;
 

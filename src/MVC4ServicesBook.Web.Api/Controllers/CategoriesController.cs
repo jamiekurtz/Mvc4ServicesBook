@@ -55,8 +55,11 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             _session.Save(modelCategory);
 
             var newCategory = _categoryMapper.CreateCategory(modelCategory);
+
+            var href = newCategory.Links.First(x => x.Rel == "self").Href;
+
             var response = request.CreateResponse(HttpStatusCode.Created, newCategory);
-            response.Headers.Add("Location", "/api/categories/" + newCategory.CategoryId);
+            response.Headers.Add("Location", href);
 
             return response;
         }

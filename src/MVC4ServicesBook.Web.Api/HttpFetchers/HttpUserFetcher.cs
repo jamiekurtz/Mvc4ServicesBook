@@ -28,6 +28,7 @@ namespace MVC4ServicesBook.Web.Api.HttpFetchers
                             ReasonPhrase = string.Format("User {0} not found", userId)
                         });
             }
+
             return user;
         }
     }

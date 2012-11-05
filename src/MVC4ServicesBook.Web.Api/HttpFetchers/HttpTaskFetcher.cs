@@ -27,6 +27,7 @@ namespace MVC4ServicesBook.Web.Api.HttpFetchers
                             ReasonPhrase = string.Format("Task {0} not found", taskId)
                         });
             }
+
             return task;
         }
     }

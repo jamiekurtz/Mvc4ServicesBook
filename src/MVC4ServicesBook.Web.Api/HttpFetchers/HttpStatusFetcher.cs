@@ -27,6 +27,7 @@ namespace MVC4ServicesBook.Web.Api.HttpFetchers
                             ReasonPhrase = string.Format("Status {0} not found", statusId)
                         });
             }
+
             return status;
         }
     }

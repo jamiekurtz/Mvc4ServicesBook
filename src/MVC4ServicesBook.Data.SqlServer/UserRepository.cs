@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 using MVC4ServicesBook.Data.Model;
 using NHibernate;
-using NHibernate.Linq;
 
 namespace MVC4ServicesBook.Data.SqlServer
 {
@@ -16,11 +14,6 @@ namespace MVC4ServicesBook.Data.SqlServer
         {
             _session = session;
             _sqlCommandFactory = sqlCommandFactory;
-        }
-
-        public IQueryable<User> AllUsers()
-        {
-            return _session.Query<User>();
         }
 
         public User GetUser(Guid userId)

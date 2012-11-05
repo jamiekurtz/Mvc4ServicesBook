@@ -20,14 +20,20 @@ namespace MVC4ServicesBook.Web.Api.HttpFetchers
             var category = _session.Get<Category>(categoryId);
             if (category == null)
             {
-                throw new HttpResponseException(
-                    new HttpResponseMessage
-                        {
-                            StatusCode = HttpStatusCode.NotFound,
-                            ReasonPhrase = string.Format("Category {0} not found", categoryId)
-                        });
+                ThowUp(categoryId);
             }
+
             return category;
+        }
+
+        private void ThowUp(long categoryId)
+        {
+            throw new HttpResponseException(
+                new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.NotFound,
+                    ReasonPhrase = string.Format("Category {0} not found", categoryId)
+                });
         }
     }
 }
