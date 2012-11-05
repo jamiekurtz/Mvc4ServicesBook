@@ -1,25 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using MVC4ServicesBook.Data;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
-using MVC4ServicesBook.Web.Common.Security;
+using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
     public class TaskCategoriesController : ApiController
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
+        private readonly ICategoryMapper _categoryMapper;
         private readonly IHttpTaskFetcher _taskFetcher;
+        private readonly IHttpCategoryFetcher _categoryFetcher;
 
-        public TaskCategoriesController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher)
+        public TaskCategoriesController(
+            IHttpTaskFetcher taskFetcher, 
+            ISession session, 
+            ICategoryMapper categoryMapper, 
+            IHttpCategoryFetcher categoryFetcher)
         {
-            _commonRepository = commonRepository;
             _taskFetcher = taskFetcher;
+            _session = session;
+            _categoryMapper = categoryMapper;
+            _categoryFetcher = categoryFetcher;
         }
 
         public IEnumerable<Category> Get(long taskId)
@@ -28,12 +35,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             return task
                 .Categories
-                .Select(x => new Category
-                                 {
-                                     CategoryId = x.CategoryId,
-                                     Description = x.Description,
-                                     Name = x.Name
-                                 })
+                .Select(_categoryMapper.CreateCategory)
                 .ToList();
         }
 
@@ -47,20 +49,11 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 return;
             }
 
-            category = _commonRepository.Get<Data.Model.Category>(categoryId);
-            if (category == null)
-            {
-                throw new HttpResponseException(
-                    new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.NotFound,
-                        ReasonPhrase = string.Format("Category {0} not found", categoryId)
-                    });
-            }
+            category = _categoryFetcher.GetCategory(categoryId);
 
             task.Categories.Add(category);
 
-            _commonRepository.Save(task);
+            _session.Save(task);
         }
 
         public void Delete(long taskId)
@@ -71,7 +64,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 .ToList()
                 .ForEach(x => task.Categories.Remove(x));
 
-            _commonRepository.Save(task);
+            _session.Save(task);
         }
 
         public void Delete(long taskId, long categoryId)
@@ -86,7 +79,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Categories.Remove(category);
 
-            _commonRepository.Save(task);
+            _session.Save(task);
         }
     }
 }

@@ -1,68 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
-using MVC4ServicesBook.Data;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
+using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
     public class StatusesController : ApiController
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
+        private readonly IStatusMapper _statusMapper;
+        private readonly IHttpStatusFetcher _statusFetcher;
 
-        public StatusesController(ICommonRepository commonRepository)
+        public StatusesController(
+            ISession session, 
+            IStatusMapper statusMapper,
+            IHttpStatusFetcher statusFetcher)
         {
-            _commonRepository = commonRepository;
+            _session = session;
+            _statusMapper = statusMapper;
+            _statusFetcher = statusFetcher;
         }
 
         public IEnumerable<Status> Get()
         {
-            return _commonRepository
-                .GetAll<Data.Model.Status>()
-                .Select(x => new Status
-                                 {
-                                     StatusId = x.StatusId,
-                                     Name = x.Name,
-                                     Ordinal = x.Ordinal,
-                                     Links = new List<Link>
-                                                 {
-                                                     new Link
-                                                         {
-                                                             Title = "self",
-                                                             Rel = "self",
-                                                             Href = "/api/statuses/" + x.StatusId
-                                                         }
-                                                 }
-                                 })
-                .ToList();
+            return _session
+                .QueryOver<Data.Model.Status>()
+                .List()
+                .Select(_statusMapper.CreateStatus);
         }
 
         public Status Get(long id)
         {
-            var status = _commonRepository.Get<Data.Model.Status>(id);
-            if(status == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return new Status
-                       {
-                           StatusId = status.StatusId,
-                           Ordinal = status.Ordinal,
-                           Name = status.Name,
-                           Links = new List<Link>
-                                       {
-                                           new Link
-                                               {
-                                                   Title = "self",
-                                                   Rel = "self",
-                                                   Href = "/api/statuses/" + status.StatusId
-                                               }
-                                       }
-                       };
+            var status = _statusFetcher.GetStatus(id);
+            return _statusMapper.CreateStatus(status);
         }
     }
 }

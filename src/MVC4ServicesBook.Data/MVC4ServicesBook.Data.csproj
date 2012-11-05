@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICommonRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="IVersionedModelObject.cs" />
     <Compile Include="Model\Category.cs" />

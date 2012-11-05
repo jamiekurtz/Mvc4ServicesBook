@@ -1,26 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using MVC4ServicesBook.Common;
-using MVC4ServicesBook.Data;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
 using MVC4ServicesBook.Web.Common.Security;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
     public class TasksController : ApiController
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
         private readonly IHttpTaskFetcher _taskFetcher;
         private readonly IUserSession _userSession;
+        private readonly ICategoryMapper _categoryMapper;
+        private readonly IStatusMapper _statusMapper;
+        private readonly IPriorityMapper _priorityMapper;
+        private readonly IUserMapper _userMapper;
 
-        public TasksController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher, IUserSession userSession)
+        public TasksController(
+            IHttpTaskFetcher taskFetcher, 
+            IUserSession userSession, 
+            ISession session, 
+            ICategoryMapper categoryMapper,
+            IStatusMapper statusMapper,
+            IPriorityMapper priorityMapper,
+            IUserMapper userMapper)
         {
-            _commonRepository = commonRepository;
             _taskFetcher = taskFetcher;
             _userSession = userSession;
+            _session = session;
+            _categoryMapper = categoryMapper;
+            _statusMapper = statusMapper;
+            _priorityMapper = priorityMapper;
+            _userMapper = userMapper;
         }
 
         public Task Get(long id)
@@ -33,12 +50,13 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
         public IEnumerable<Task> Get()
         {
-            var modelTasks =
-                _commonRepository.Search<Data.Model.Task>(
+            var tasks = _session
+                .Query<Data.Model.Task>()
+                .Where(
                     x =>
-                    x.CreatedBy.UserId == _userSession.UserId || x.Users.Any(user => user.UserId == _userSession.UserId));
-
-            var tasks = modelTasks.Select(CreateTaskFromModel).ToList();
+                    x.CreatedBy.UserId == _userSession.UserId || x.Users.Any(user => user.UserId == _userSession.UserId))
+                .Select(CreateTaskFromModel)
+                .ToList();
 
             return tasks;
         }
@@ -53,37 +71,15 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                                DateCompleted = modelTask.DateCompleted,
                                DueDate = modelTask.DueDate,
                                CreatedDate = modelTask.CreatedDate,
-                               Status = new Status
-                                            {
-                                                StatusId = modelTask.Status.StatusId,
-                                                Name = modelTask.Status.Name,
-                                                Ordinal = modelTask.Status.Ordinal
-                                            },
-                               Priority = new Priority
-                                              {
-                                                  PriorityId = modelTask.Priority.PriorityId,
-                                                  Name = modelTask.Priority.Name,
-                                                  Ordinal = modelTask.Priority.Ordinal
-                                              },
+                               Status = _statusMapper.CreateStatus(modelTask.Status),
+                               Priority = _priorityMapper.CreatePriority(modelTask.Priority),
                                Categories = modelTask
                                    .Categories
-                                   .Select(x => new Category
-                                                    {
-                                                        CategoryId = x.CategoryId,
-                                                        Description = x.Description,
-                                                        Name = x.Name
-                                                    })
+                                   .Select(_categoryMapper.CreateCategory)
                                    .ToList(),
                                Assignees = modelTask
                                    .Users
-                                   .Select(x => new User
-                                                    {
-                                                        UserId = x.UserId,
-                                                        Email = x.Email,
-                                                        Firstname = x.Firstname,
-                                                        Lastname = x.Lastname,
-                                                        Username = x.Username
-                                                    })
+                                   .Select(_userMapper.CreateUser)
                                    .ToList()
                            };
 

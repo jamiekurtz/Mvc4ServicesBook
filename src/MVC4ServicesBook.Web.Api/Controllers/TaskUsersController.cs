@@ -4,22 +4,26 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using MVC4ServicesBook.Data;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
+using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
     public class TaskUsersController : ApiController
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
+        private readonly IUserMapper _userMapper;
         private readonly IHttpTaskFetcher _taskFetcher;
 
-        public TaskUsersController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher)
+        public TaskUsersController(IHttpTaskFetcher taskFetcher, ISession session, IUserMapper userMapper)
         {
-            _commonRepository = commonRepository;
             _taskFetcher = taskFetcher;
+            _session = session;
+            _userMapper = userMapper;
         }
 
         public IEnumerable<User> Get(long taskId)
@@ -28,14 +32,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             return task
                 .Users
-                .Select(x => new User
-                                 {
-                                     UserId = x.UserId,
-                                     Email = x.Email,
-                                     Firstname = x.Firstname,
-                                     Lastname = x.Lastname,
-                                     Username = x.Username
-                                 })
+                .Select(_userMapper.CreateUser)
                 .ToList();
         }
 
@@ -47,7 +44,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 .ToList()
                 .ForEach(x => task.Users.Remove(x));
 
-            _commonRepository.Save(task);
+            _session.Save(task);
         }
 
         public void Delete(long taskId, Guid userId)
@@ -62,7 +59,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Users.Remove(user);
 
-            _commonRepository.Save(task);
+            _session.Save(task);
         }       
         
         public void Put(long taskId, Guid userId)
@@ -75,7 +72,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 return;
             }
 
-            user = _commonRepository.Get<Data.Model.User>(userId);
+            user = _session.Get<Data.Model.User>(userId);
             if(user == null)
             {
                 throw new HttpResponseException(
@@ -87,8 +84,8 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             }
 
             task.Users.Add(user);
-            
-            _commonRepository.Save(task);
+
+            _session.Save(task);
         }
     }
 }

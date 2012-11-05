@@ -1,23 +1,23 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Data.Model;
+using NHibernate;
 
-namespace MVC4ServicesBook.Web.Api
+namespace MVC4ServicesBook.Web.Api.HttpFetchers
 {
     public class HttpTaskFetcher : IHttpTaskFetcher
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
 
-        public HttpTaskFetcher(ICommonRepository commonRepository)
+        public HttpTaskFetcher(ISession session)
         {
-            _commonRepository = commonRepository;
+            _session = session;
         }
 
         public Task GetTask(long taskId)
         {
-            var task = _commonRepository.Get<Task>(taskId);
+            var task = _session.Get<Task>(taskId);
             if (task == null)
             {
                 throw new HttpResponseException(

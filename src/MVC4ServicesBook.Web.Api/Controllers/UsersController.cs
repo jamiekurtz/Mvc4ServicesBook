@@ -4,7 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using MVC4ServicesBook.Data;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
@@ -13,11 +15,19 @@ namespace MVC4ServicesBook.Web.Api.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserManager _userManager;
+        private readonly IUserMapper _userMapper;
+        private readonly IHttpUserFetcher _userFetcher;
 
-        public UsersController(IUserRepository userRepository, IUserManager userManager)
+        public UsersController(
+            IUserRepository userRepository, 
+            IUserManager userManager, 
+            IUserMapper userMapper,
+            IHttpUserFetcher userFetcher)
         {
             _userRepository = userRepository;
             _userManager = userManager;
+            _userMapper = userMapper;
+            _userFetcher = userFetcher;
         }
 
         [Queryable]
@@ -27,20 +37,10 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         }
 
         [LoggingNHibernateSessions]
-        public Data.Model.User Get(Guid id)
+        public User Get(Guid id)
         {
-            var user = _userRepository.GetUser(id);
-            if(user == null)
-            {
-                throw new HttpResponseException(
-                    new HttpResponseMessage
-                        {
-                            StatusCode = HttpStatusCode.NotFound,
-                            ReasonPhrase = string.Format("User {0} not found", id)
-                        });
-            }
-
-            return user;
+            var user = _userFetcher.GetUser(id);
+            return _userMapper.CreateUser(user);
         }
 
         [LoggingNHibernateSessions]
@@ -48,14 +48,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         {
             var newUser = _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname, user.Email);
 
-            var href = "/api/users/" + newUser.UserId;
-            newUser.Links.Add(
-                new Link
-                    {
-                        Rel = "self",
-                        Title = "self",
-                        Href = href
-                    });
+            var href = newUser.Links.First(x => x.Rel == "self").Href;
 
             var response = request.CreateResponse(HttpStatusCode.Created, newUser);
             response.Headers.Add("Location", href);

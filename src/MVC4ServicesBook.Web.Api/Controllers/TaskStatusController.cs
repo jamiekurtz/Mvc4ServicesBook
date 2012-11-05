@@ -1,54 +1,47 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using MVC4ServicesBook.Data;
+﻿using System.Web.Http;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
+using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
     public class TaskStatusController : ApiController
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
+        private readonly IStatusMapper _statusMapper;
+        private readonly IHttpStatusFetcher _statusFetcher;
         private readonly IHttpTaskFetcher _taskFetcher;
 
-        public TaskStatusController(ICommonRepository commonRepository, IHttpTaskFetcher taskFetcher)
+        public TaskStatusController(
+            IHttpTaskFetcher taskFetcher, 
+            ISession session, 
+            IStatusMapper statusMapper,
+            IHttpStatusFetcher statusFetcher)
         {
-            _commonRepository = commonRepository;
             _taskFetcher = taskFetcher;
+            _session = session;
+            _statusMapper = statusMapper;
+            _statusFetcher = statusFetcher;
         }
 
         public Status Get(long taskId)
         {
             var task = _taskFetcher.GetTask(taskId);
-
-            return new Status
-                       {
-                           Name = task.Status.Name,
-                           Ordinal = task.Status.Ordinal,
-                           StatusId = task.Status.StatusId
-                       };
+            return _statusMapper.CreateStatus(task.Status);
         }
 
         public void Put(long taskId, long statusId)
         {
             var task = _taskFetcher.GetTask(taskId);
 
-            var status = _commonRepository.Get<Data.Model.Status>(statusId);
-            if (status == null)
-            {
-                throw new HttpResponseException(
-                    new HttpResponseMessage
-                        {
-                            StatusCode = HttpStatusCode.NotFound,
-                            ReasonPhrase = string.Format("Status {0} not found", statusId)
-                        });
-            }
+            var status = _statusFetcher.GetStatus(statusId);
 
             task.Status = status;
 
-            _commonRepository.Save(task);
+            _session.Save(task);
         }
     }
 }

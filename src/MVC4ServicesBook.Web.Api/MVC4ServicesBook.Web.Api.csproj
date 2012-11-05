@@ -154,11 +154,26 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BasicAuthenticationMessageHandler.cs" />
+    <Compile Include="TypeMappers\CategoryMapper.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="HttpFetchers\HttpCategoryFetcher.cs" />
+    <Compile Include="HttpFetchers\HttpPriorityFetcher.cs" />
+    <Compile Include="HttpFetchers\HttpStatusFetcher.cs" />
+    <Compile Include="HttpFetchers\HttpUserFetcher.cs" />
+    <Compile Include="HttpFetchers\IHttpCategoryFetcher.cs" />
+    <Compile Include="HttpFetchers\IHttpPriorityFetcher.cs" />
+    <Compile Include="HttpFetchers\IHttpStatusFetcher.cs" />
+    <Compile Include="HttpFetchers\IHttpUserFetcher.cs" />
+    <Compile Include="TypeMappers\ICategoryMapper.cs" />
+    <Compile Include="TypeMappers\IPriorityMapper.cs" />
+    <Compile Include="TypeMappers\IStatusMapper.cs" />
+    <Compile Include="TypeMappers\IUserMapper.cs" />
+    <Compile Include="TypeMappers\PriorityMapper.cs" />
+    <Compile Include="TypeMappers\StatusMapper.cs" />
     <Compile Include="Controllers\TaskCategoriesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="HttpTaskFetcher.cs" />
-    <Compile Include="IHttpTaskFetcher.cs" />
+    <Compile Include="HttpFetchers\HttpTaskFetcher.cs" />
+    <Compile Include="HttpFetchers\IHttpTaskFetcher.cs" />
     <Compile Include="Controllers\TaskPriorityController.cs" />
     <Compile Include="Controllers\StatusesController.cs" />
     <Compile Include="Controllers\PrioritiesController.cs" />
@@ -171,6 +186,7 @@
     <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserManager.cs" />
+    <Compile Include="TypeMappers\UserMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />

@@ -1,67 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
-using MVC4ServicesBook.Data;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
+using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
     public class PrioritiesController : ApiController
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
+        private readonly IPriorityMapper _priorityMapper;
+        private readonly IHttpPriorityFetcher _priorityFetcher;
 
-        public PrioritiesController(ICommonRepository commonRepository)
+        public PrioritiesController(
+            ISession session, 
+            IPriorityMapper priorityMapper,
+            IHttpPriorityFetcher priorityFetcher)
         {
-            _commonRepository = commonRepository;
+            _session = session;
+            _priorityMapper = priorityMapper;
+            _priorityFetcher = priorityFetcher;
         }
 
         public IEnumerable<Priority> Get()
         {
-            return _commonRepository
-                .GetAll<Data.Model.Priority>()
-                .Select(x => new Priority
-                                 {
-                                     PriorityId = x.PriorityId,
-                                     Name = x.Name,
-                                     Ordinal = x.Ordinal,
-                                     Links = new List<Link>
-                                                 {
-                                                     new Link
-                                                         {
-                                                             Title = "self",
-                                                             Rel = "self",
-                                                             Href = "/api/priorities/" + x.PriorityId
-                                                         }
-                                                 }
-                                 })
-                .ToList();
+            return _session
+                .QueryOver<Data.Model.Priority>()
+                .List()
+                .Select(_priorityMapper.CreatePriority);
         }
 
         public Priority Get(long id)
         {
-            var priority = _commonRepository.Get<Data.Model.Priority>(id);
-            if(priority == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return new Priority
-                       {
-                           PriorityId = priority.PriorityId,
-                           Ordinal = priority.Ordinal,
-                           Name = priority.Name,
-                           Links = new List<Link>
-                                       {
-                                           new Link
-                                               {
-                                                   Title = "self",
-                                                   Rel = "self",
-                                                   Href = "/api/priorities/" + priority.PriorityId
-                                               }
-                                       }};
+            var priority = _priorityFetcher.GetPriority(id);
+            return _priorityMapper.CreatePriority(priority);
         }
     }
 }

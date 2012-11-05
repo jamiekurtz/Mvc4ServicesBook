@@ -5,6 +5,8 @@ using FluentNHibernate.Cfg.Db;
 using MVC4ServicesBook.Common;
 using MVC4ServicesBook.Data;
 using MVC4ServicesBook.Data.SqlServer;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
 using MVC4ServicesBook.Web.Common.Security;
 using NHibernate;
@@ -35,12 +37,20 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             container.Bind<IDateTime>().To<DateTimeAdapter>();
             container.Bind<IDatabaseValueParser>().To<DatabaseValueParser>();
 
+            container.Bind<IHttpCategoryFetcher>().To<HttpCategoryFetcher>();
+            container.Bind<IHttpPriorityFetcher>().To<HttpPriorityFetcher>();
+            container.Bind<IHttpStatusFetcher>().To<HttpStatusFetcher>();
+            container.Bind<IHttpUserFetcher>().To<HttpUserFetcher>();
             container.Bind<IHttpTaskFetcher>().To<HttpTaskFetcher>();
+
             container.Bind<IUserManager>().To<UserManager>();
             container.Bind<IMembershipAdapter>().To<MembershipAdapter>();
+            container.Bind<ICategoryMapper>().To<CategoryMapper>();
+            container.Bind<IPriorityMapper>().To<PriorityMapper>();
+            container.Bind<IStatusMapper>().To<StatusMapper>();
+            container.Bind<IUserMapper>().To<UserMapper>();
 
             container.Bind<ISqlCommandFactory>().To<SqlCommandFactory>();
-            container.Bind<ICommonRepository>().To<CommonRepository>();
             container.Bind<IUserRepository>().To<UserRepository>();
 
             container.Bind<IUserSession>().ToMethod(CreateUserSession).InRequestScope();
@@ -66,7 +76,7 @@ namespace MVC4ServicesBook.Web.Api.App_Start
                     MsSqlConfiguration.MsSql2008.ConnectionString(
                         c => c.FromConnectionStringWithKey("Mvc4ServicesDb")))
                 .CurrentSessionContext("web")
-                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<CommonRepository>())
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<SqlCommandFactory>())
                 .BuildSessionFactory();
 
             container.Bind<ISessionFactory>().ToConstant(sessionFactory);

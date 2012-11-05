@@ -3,58 +3,44 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using MVC4ServicesBook.Data;
+using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
+using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
+using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
     [LoggingNHibernateSessions]
     public class CategoriesController : ApiController
     {
-        private readonly ICommonRepository _commonRepository;
+        private readonly ISession _session;
+        private readonly ICategoryMapper _categoryMapper;
+        private readonly IHttpCategoryFetcher _categoryFetcher;
 
-        public CategoriesController(ICommonRepository commonRepository)
+        public CategoriesController(
+            ISession session, 
+            ICategoryMapper categoryMapper, 
+            IHttpCategoryFetcher categoryFetcher)
         {
-            _commonRepository = commonRepository;
+            _session = session;
+            _categoryMapper = categoryMapper;
+            _categoryFetcher = categoryFetcher;
         }
 
         public IEnumerable<Category> Get()
         {
-            return _commonRepository
-                .GetAll<Data.Model.Category>()
-                .Select(CreateCategoryResponse)
+            return _session
+                .QueryOver<Data.Model.Category>()
+                .List()
+                .Select(_categoryMapper.CreateCategory)
                 .ToList();
         }
 
         public Category Get(long id)
         {
-            var category = _commonRepository.Get<Data.Model.Category>(id);
-            if(category == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-
-            return CreateCategoryResponse(category);
-        }
-
-        private Category CreateCategoryResponse(Data.Model.Category modelCategory)
-        {
-            return new Category
-                       {
-                           CategoryId = modelCategory.CategoryId,
-                           Description = modelCategory.Description,
-                           Name = modelCategory.Name,
-                           Links = new List<Link>
-                                       {
-                                           new Link
-                                               {
-                                                   Title = "self",
-                                                   Rel = "self",
-                                                   Href = "/api/categories/" + modelCategory.CategoryId
-                                               }
-                                       }
-                       };
+            var category = _categoryFetcher.GetCategory(id);
+            return _categoryMapper.CreateCategory(category);
         }
 
         [Authorize(Roles = "Administrators")]
@@ -66,9 +52,9 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                                         Name = category.Name
                                     };
 
-            _commonRepository.Save(modelCategory);
+            _session.Save(modelCategory);
 
-            var newCategory = CreateCategoryResponse(modelCategory);
+            var newCategory = _categoryMapper.CreateCategory(modelCategory);
             var response = request.CreateResponse(HttpStatusCode.Created, newCategory);
             response.Headers.Add("Location", "/api/categories/" + newCategory.CategoryId);
 
@@ -78,10 +64,10 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         [Authorize(Roles = "Administrators")]
         public HttpResponseMessage Delete()
         {
-            var categories = _commonRepository.GetAll<Data.Model.Category>().ToList();
+            var categories = _session.QueryOver<Data.Model.Category>().List();
             foreach (var category in categories)
             {
-                _commonRepository.Delete(category);
+                _session.Delete(category);
             }
 
             return new HttpResponseMessage(HttpStatusCode.OK);
@@ -90,10 +76,10 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         [Authorize(Roles = "Administrators")]
         public HttpResponseMessage Delete(long id)
         {
-            var category = _commonRepository.Get<Data.Model.Category>(id);
+            var category = _session.Get<Data.Model.Category>(id);
             if (category != null)
             {
-                _commonRepository.Delete(category);
+                _session.Delete(category);
             }
 
             return new HttpResponseMessage(HttpStatusCode.OK);
@@ -102,18 +88,14 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         [Authorize(Roles = "Administrators")]
         public Category Put(long id, Category category)
         {
-            var modelCateogry = _commonRepository.Get<Data.Model.Category>(id);
-            if (modelCateogry == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            var modelCateogry = _categoryFetcher.GetCategory(id);
 
             modelCateogry.Name = category.Name;
             modelCateogry.Description = category.Description;
-            
-            _commonRepository.Save(modelCateogry);
 
-            return CreateCategoryResponse(modelCateogry);
+            _session.Save(modelCateogry);
+
+            return _categoryMapper.CreateCategory(modelCateogry);
         }
     }
 }
