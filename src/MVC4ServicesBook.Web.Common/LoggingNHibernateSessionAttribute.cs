@@ -11,13 +11,13 @@ using log4net;
 
 namespace MVC4ServicesBook.Web.Common
 {
-    public class LoggingNHibernateSessionsAttribute : ActionFilterAttribute
+    public class LoggingNHibernateSessionAttribute : ActionFilterAttribute
     {
         public const int MaxStatusDescriptionLength = 512;
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            LogAction(actionContext.ActionDescriptor, "ENTERING  ");
+            LogAction(actionContext.ActionDescriptor, "ENTERING");
             BeginTransaction();
         }
         
@@ -26,7 +26,7 @@ namespace MVC4ServicesBook.Web.Common
             EndTransaction(actionExecutedContext);
             CloseSession();
             LogException(actionExecutedContext);
-            LogAction(actionExecutedContext.ActionContext.ActionDescriptor, "EXITING  ");
+            LogAction(actionExecutedContext.ActionContext.ActionDescriptor, "EXITING");
         }
 
         private void CloseSession()
@@ -47,7 +47,7 @@ namespace MVC4ServicesBook.Web.Common
             var container = GetContainer();
             var logger = container.Get<ILog>();
             logger.DebugFormat(
-                "{0}{1}::{2}",
+                "{0} {1}::{2}",
                 prefix,
                 actionDescriptor.ControllerDescriptor.ControllerType.FullName,
                 actionDescriptor.ActionName);
@@ -69,7 +69,7 @@ namespace MVC4ServicesBook.Web.Common
                 reasonPhrase = reasonPhrase.Substring(0, MaxStatusDescriptionLength);
             }
 
-            reasonPhrase = reasonPhrase.Replace("\r\n", " ");
+            reasonPhrase = reasonPhrase.Replace(Environment.NewLine, " ");
 
             filterContext.Response = new HttpResponseMessage
                                          {

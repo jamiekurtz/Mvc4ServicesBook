@@ -2,7 +2,7 @@ using System;
 
 namespace MVC4ServicesBook.Web.Common.Security
 {
-    public interface IMembershipAdapter
+    public interface IMembershipInfoProvider
     {
         MembershipUserWrapper GetUser(string username);
         MembershipUserWrapper GetUser(Guid userId);

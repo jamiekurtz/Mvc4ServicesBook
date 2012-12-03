@@ -10,7 +10,7 @@ using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
-    [LoggingNHibernateSessions]
+    [LoggingNHibernateSession]
     public class TaskUsersController : ApiController
     {
         private readonly ISession _session;

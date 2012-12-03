@@ -37,14 +37,14 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return _session.Query<Data.Model.User>();
         }
 
-        [LoggingNHibernateSessions]
+        [LoggingNHibernateSession]
         public User Get(Guid id)
         {
             var user = _userFetcher.GetUser(id);
             return _userMapper.CreateUser(user);
         }
 
-        [LoggingNHibernateSessions]
+        [LoggingNHibernateSession]
         public HttpResponseMessage Post(HttpRequestMessage request, User user)
         {
             var newUser = _userManager.CreateUser(user.Username, user.Password, user.Firstname, user.Lastname,

@@ -7,11 +7,11 @@ namespace MVC4ServicesBook.Web.Api
 {
     public class UserManager : IUserManager
     {
-        private readonly IMembershipAdapter _membershipAdapter;
+        private readonly IMembershipInfoProvider _membershipAdapter;
         private readonly IUserRepository _userRepository;
         private readonly IUserMapper _userMapper;
 
-        public UserManager(IMembershipAdapter membershipAdapter, IUserRepository userRepository, IUserMapper userMapper)
+        public UserManager(IMembershipInfoProvider membershipAdapter, IUserRepository userRepository, IUserMapper userMapper)
         {
             _membershipAdapter = membershipAdapter;
             _userRepository = userRepository;

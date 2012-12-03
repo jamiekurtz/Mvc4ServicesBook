@@ -9,7 +9,7 @@ using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
-    [LoggingNHibernateSessions]
+    [LoggingNHibernateSession]
     public class StatusesController : ApiController
     {
         private readonly ISession _session;

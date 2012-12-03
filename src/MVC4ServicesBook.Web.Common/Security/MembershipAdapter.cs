@@ -3,22 +3,27 @@ using System.Web.Security;
 
 namespace MVC4ServicesBook.Web.Common.Security
 {
-    public class MembershipAdapter : IMembershipAdapter
+    public class MembershipAdapter : IMembershipInfoProvider
     {
         public MembershipUserWrapper GetUser(string username)
         {
             var user = Membership.GetUser(username);
-            return user == null ? null : CreateMembershipUserWrapper(user);
+            return CreateMembershipUserWrapper(user);
         }
 
         public MembershipUserWrapper GetUser(Guid userId)
         {
             var user = Membership.GetUser(userId);
-            return user == null ? null : CreateMembershipUserWrapper(user);
+            return CreateMembershipUserWrapper(user);
         }
 
         public MembershipUserWrapper CreateMembershipUserWrapper(MembershipUser user)
         {
+            if (user == null)
+            {
+                return null;
+            }
+
             return new MembershipUserWrapper
                        {
                            UserId = Guid.Parse(user.ProviderUserKey.ToString()),

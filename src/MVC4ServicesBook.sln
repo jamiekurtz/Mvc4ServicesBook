@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC4ServicesBook.Common.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC4ServicesBook.Web.Api.Tests", "MVC4ServicesBook.Web.Api.Tests\MVC4ServicesBook.Web.Api.Tests.csproj", "{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC4ServicesBook.SmokeTests", "MVC4ServicesBook.SmokeTests\MVC4ServicesBook.SmokeTests.csproj", "{5F070957-34AD-40DE-8185-CFAF0F5C59C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F070957-34AD-40DE-8185-CFAF0F5C59C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F070957-34AD-40DE-8185-CFAF0F5C59C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F070957-34AD-40DE-8185-CFAF0F5C59C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F070957-34AD-40DE-8185-CFAF0F5C59C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +74,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{465DA1DE-8CC2-487E-9CD7-ACFD06A94214} = {086988DF-F96B-47EF-91CB-0732583A6CB5}
 		{2A4895CC-3E31-4EE9-A5EA-B88B5164C953} = {086988DF-F96B-47EF-91CB-0732583A6CB5}
+		{5F070957-34AD-40DE-8185-CFAF0F5C59C1} = {086988DF-F96B-47EF-91CB-0732583A6CB5}
 	EndGlobalSection
 EndGlobal

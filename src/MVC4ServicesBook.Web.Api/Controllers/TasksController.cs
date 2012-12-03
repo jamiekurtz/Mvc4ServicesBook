@@ -11,7 +11,7 @@ using NHibernate.Linq;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
-    [LoggingNHibernateSessions]
+    [LoggingNHibernateSession]
     public class TasksController : ApiController
     {
         private readonly ISession _session;

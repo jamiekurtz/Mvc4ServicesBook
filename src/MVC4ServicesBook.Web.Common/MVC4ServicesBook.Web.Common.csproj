@@ -86,8 +86,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoggingNHibernateSessionsAttribute.cs" />
-    <Compile Include="Security\IMembershipAdapter.cs" />
+    <Compile Include="LoggingNHibernateSessionAttribute.cs" />
+    <Compile Include="Security\IMembershipInfoProvider.cs" />
     <Compile Include="Security\IUserSession.cs" />
     <Compile Include="Security\MembershipAdapter.cs" />
     <Compile Include="NinjectDependencyResolver.cs" />

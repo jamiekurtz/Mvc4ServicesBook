@@ -19,17 +19,18 @@ namespace MVC4ServicesBook.Web.Api
         public const string ChallengeAuthenticationHeaderName = "WWW-Authenticate";
         public const char AuthorizationHeaderSeparator = ':';
 
-        private readonly IMembershipAdapter _membershipAdapter;
+        private readonly IMembershipInfoProvider _membershipAdapter;
         private readonly ISessionFactory _sessionFactory;
 
-        public BasicAuthenticationMessageHandler(IMembershipAdapter membershipAdapter, ISessionFactory sessionFactory)
+        public BasicAuthenticationMessageHandler(IMembershipInfoProvider membershipAdapter, ISessionFactory sessionFactory)
         {
             _membershipAdapter = membershipAdapter;
             _sessionFactory = sessionFactory;
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-                                                               CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             var authHeader = request.Headers.Authorization;
             if (authHeader == null)

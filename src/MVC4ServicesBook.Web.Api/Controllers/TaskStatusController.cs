@@ -7,7 +7,7 @@ using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
 {
-    [LoggingNHibernateSessions]
+    [LoggingNHibernateSession]
     public class TaskStatusController : ApiController
     {
         private readonly ISession _session;
