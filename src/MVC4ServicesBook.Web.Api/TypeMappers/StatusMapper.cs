@@ -19,6 +19,12 @@ namespace MVC4ServicesBook.Web.Api.TypeMappers
                                                    Title = "self",
                                                    Rel = "self",
                                                    Href = "/api/statuses/" + status.StatusId
+                                               },
+                                           new Link
+                                               {
+                                                   Title = "All Statuses",
+                                                   Rel = "all",
+                                                   Href = "/api/statuses"
                                                }
                                        }
                        };

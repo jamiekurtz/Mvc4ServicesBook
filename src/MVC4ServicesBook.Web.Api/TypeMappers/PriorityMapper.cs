@@ -19,6 +19,12 @@ namespace MVC4ServicesBook.Web.Api.TypeMappers
                                                    Title = "self",
                                                    Rel = "self",
                                                    Href = "/api/priorities/" + priority.PriorityId
+                                               },
+                                           new Link
+                                               {
+                                                   Title = "All Priorities",
+                                                   Rel = "all",
+                                                   Href = "/api/priorities"
                                                }
                                        }
                        };

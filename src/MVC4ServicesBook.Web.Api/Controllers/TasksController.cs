@@ -83,6 +83,28 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                                    .ToList()
                            };
 
+            task.Links = new List<Link>
+                             {
+                                 new Link
+                                     {
+                                         Title = "self",
+                                         Rel = "self",
+                                         Href = "/api/tasks/" + task.TaskId
+                                     },
+                                 new Link
+                                     {
+                                         Title = "Categories",
+                                         Rel = "categories",
+                                         Href = "/api/tasks/" + task.TaskId + "/categories"
+                                     },
+                                 new Link
+                                     {
+                                         Title = "Assignees",
+                                         Rel = "users",
+                                         Href = "/api/tasks/" + task.TaskId + "/users"
+                                     }
+                             };
+
             return task;
         }
     }

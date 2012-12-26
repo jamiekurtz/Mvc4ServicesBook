@@ -95,6 +95,7 @@
     <Compile Include="ICurrentSessionContextAdapter.cs" />
     <Compile Include="LoggingNHibernateSessionAttribute.cs" />
     <Compile Include="CurrentSessionContextAdapter.cs" />
+    <Compile Include="Security\AdministratorAuthorized.cs" />
     <Compile Include="Security\IMembershipInfoProvider.cs" />
     <Compile Include="Security\IUserSession.cs" />
     <Compile Include="Security\MembershipAdapter.cs" />

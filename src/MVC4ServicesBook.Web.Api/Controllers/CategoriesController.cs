@@ -7,6 +7,7 @@ using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
 using MVC4ServicesBook.Web.Api.TypeMappers;
 using MVC4ServicesBook.Web.Common;
+using MVC4ServicesBook.Web.Common.Security;
 using NHibernate;
 
 namespace MVC4ServicesBook.Web.Api.Controllers
@@ -43,7 +44,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return _categoryMapper.CreateCategory(category);
         }
 
-        [Authorize(Roles = "Administrators")]
+        [AdministratorAuthorized]
         public HttpResponseMessage Post(HttpRequestMessage request, Category category)
         {
             var modelCategory = new Data.Model.Category
@@ -64,7 +65,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return response;
         }
 
-        [Authorize(Roles = "Administrators")]
+        [AdministratorAuthorized]
         public HttpResponseMessage Delete()
         {
             var categories = _session.QueryOver<Data.Model.Category>().List();
@@ -76,7 +77,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        [Authorize(Roles = "Administrators")]
+        [AdministratorAuthorized]
         public HttpResponseMessage Delete(long id)
         {
             var category = _session.Get<Data.Model.Category>(id);
@@ -88,7 +89,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        [Authorize(Roles = "Administrators")]
+        [AdministratorAuthorized]
         public Category Put(long id, Category category)
         {
             var modelCateogry = _categoryFetcher.GetCategory(id);

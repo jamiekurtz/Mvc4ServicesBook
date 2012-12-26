@@ -22,6 +22,12 @@ namespace MVC4ServicesBook.Web.Api.TypeMappers
                                                    Title = "self",
                                                    Rel = "self",
                                                    Href = "/api/users/" + userId
+                                               },
+                                           new Link
+                                               {
+                                                   Title = "All Users",
+                                                   Rel = "all",
+                                                   Href = "/api/users"
                                                }
                                        }
                        };

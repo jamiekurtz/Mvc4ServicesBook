@@ -19,6 +19,12 @@ namespace MVC4ServicesBook.Web.Api.TypeMappers
                                                    Title = "self",
                                                    Rel = "self",
                                                    Href = "/api/categories/" + modelCategory.CategoryId
+                                               },
+                                           new Link
+                                               {
+                                                   Title = "All Categories",
+                                                   Rel = "all",
+                                                   Href = "/api/categories"
                                                }
                                        }
                        };
