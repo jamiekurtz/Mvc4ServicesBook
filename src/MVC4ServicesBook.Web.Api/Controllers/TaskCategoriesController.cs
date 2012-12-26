@@ -53,7 +53,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Categories.Add(category);
 
-            _session.Save(task);
+            _session.SaveOrUpdate(task);
         }
 
         public void Delete(long taskId)
@@ -64,7 +64,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 .ToList()
                 .ForEach(x => task.Categories.Remove(x));
 
-            _session.Save(task);
+            _session.SaveOrUpdate(task);
         }
 
         public void Delete(long taskId, long categoryId)
@@ -79,7 +79,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Categories.Remove(category);
 
-            _session.Save(task);
+            _session.SaveOrUpdate(task);
         }
     }
 }

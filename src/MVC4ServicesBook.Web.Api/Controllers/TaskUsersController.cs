@@ -48,7 +48,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 .ToList()
                 .ForEach(x => task.Users.Remove(x));
 
-            _session.Save(task);
+            _session.SaveOrUpdate(task);
         }
 
         public void Delete(long taskId, Guid userId)
@@ -63,7 +63,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Users.Remove(user);
 
-            _session.Save(task);
+            _session.SaveOrUpdate(task);
         }       
         
         public void Put(long taskId, Guid userId)
@@ -80,7 +80,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Users.Add(user);
 
-            _session.Save(task);
+            _session.SaveOrUpdate(task);
         }
     }
 }

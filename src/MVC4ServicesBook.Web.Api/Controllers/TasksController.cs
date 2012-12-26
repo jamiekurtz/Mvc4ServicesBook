@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
+using MVC4ServicesBook.Common;
 using MVC4ServicesBook.Web.Api.HttpFetchers;
 using MVC4ServicesBook.Web.Api.Models;
 using MVC4ServicesBook.Web.Api.TypeMappers;
@@ -17,33 +20,27 @@ namespace MVC4ServicesBook.Web.Api.Controllers
         private readonly ISession _session;
         private readonly IHttpTaskFetcher _taskFetcher;
         private readonly IUserSession _userSession;
-        private readonly ICategoryMapper _categoryMapper;
-        private readonly IStatusMapper _statusMapper;
-        private readonly IPriorityMapper _priorityMapper;
-        private readonly IUserMapper _userMapper;
+        private readonly IDateTime _dateTime;
+        private readonly ITaskMapper _taskMapper;
 
         public TasksController(
             IHttpTaskFetcher taskFetcher, 
             IUserSession userSession, 
             ISession session, 
-            ICategoryMapper categoryMapper,
-            IStatusMapper statusMapper,
-            IPriorityMapper priorityMapper,
-            IUserMapper userMapper)
+            IDateTime dateTime, 
+            ITaskMapper taskMapper)
         {
             _taskFetcher = taskFetcher;
             _userSession = userSession;
             _session = session;
-            _categoryMapper = categoryMapper;
-            _statusMapper = statusMapper;
-            _priorityMapper = priorityMapper;
-            _userMapper = userMapper;
+            _dateTime = dateTime;
+            _taskMapper = taskMapper;
         }
 
         public Task Get(long id)
         {
             var modelTask = _taskFetcher.GetTask(id);
-            var task = CreateTaskFromModel(modelTask);
+            var task = _taskMapper.CreateTask(modelTask);
 
             return task;
         }
@@ -55,57 +52,92 @@ namespace MVC4ServicesBook.Web.Api.Controllers
                 .Where(
                     x =>
                     x.CreatedBy.UserId == _userSession.UserId || x.Users.Any(user => user.UserId == _userSession.UserId))
-                .Select(CreateTaskFromModel)
+                .Select(_taskMapper.CreateTask)
                 .ToList();
 
             return tasks;
         }
 
-        private Task CreateTaskFromModel(Data.Model.Task modelTask)
+        public HttpResponseMessage Delete(long id)
         {
-            var task = new Task
-                           {
-                               TaskId = modelTask.TaskId,
-                               Subject = modelTask.Subject,
-                               StartDate = modelTask.StartDate,
-                               DateCompleted = modelTask.DateCompleted,
-                               DueDate = modelTask.DueDate,
-                               CreatedDate = modelTask.CreatedDate,
-                               Status = _statusMapper.CreateStatus(modelTask.Status),
-                               Priority = _priorityMapper.CreatePriority(modelTask.Priority),
-                               Categories = modelTask
-                                   .Categories
-                                   .Select(_categoryMapper.CreateCategory)
-                                   .ToList(),
-                               Assignees = modelTask
-                                   .Users
-                                   .Select(_userMapper.CreateUser)
-                                   .ToList()
-                           };
+            var task = _session.Get<Data.Model.Task>(id);
+            if (task != null)
+            {
+                task.Status = _session.Query<Data.Model.Status>().First(x => x.Name == "Completed");
+                _session.SaveOrUpdate(task);
+            }
 
-            task.Links = new List<Link>
-                             {
-                                 new Link
-                                     {
-                                         Title = "self",
-                                         Rel = "self",
-                                         Href = "/api/tasks/" + task.TaskId
-                                     },
-                                 new Link
-                                     {
-                                         Title = "Categories",
-                                         Rel = "categories",
-                                         Href = "/api/tasks/" + task.TaskId + "/categories"
-                                     },
-                                 new Link
-                                     {
-                                         Title = "Assignees",
-                                         Rel = "users",
-                                         Href = "/api/tasks/" + task.TaskId + "/users"
-                                     }
-                             };
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
 
-            return task;
+        public HttpResponseMessage Post(HttpRequestMessage request, Task task)
+        {
+            var currentUser = _session.Get<Data.Model.User>(_userSession.UserId);
+
+            var modelTask = new Data.Model.Task
+                                {
+                                    CreatedDate = _dateTime.UtcNow,
+                                    CreatedBy = currentUser,
+                                    Subject = task.Subject,
+                                    DateCompleted = task.DateCompleted,
+                                    DueDate = task.DueDate,
+                                    StartDate = task.StartDate,
+                                    Priority = _session.Get<Data.Model.Priority>(task.Priority.PriorityId),
+                                    Status = _session.Get<Data.Model.Status>(task.Status.StatusId)                                   
+                                };
+
+            foreach (var category in task.Categories)
+            {
+                var modelCategory = _session.Get<Data.Model.Category>(category.CategoryId);
+                modelTask.Categories.Add(modelCategory);
+            }
+
+            foreach (var user in task.Assignees)
+            {
+                var modelUser = _session.Get<Data.Model.User>(user.UserId);
+                modelTask.Users.Add(modelUser);
+            }
+
+            _session.SaveOrUpdate(modelTask);
+
+            var newTask = _taskMapper.CreateTask(modelTask);
+
+            var href = newTask.Links.First(x => x.Rel == "self").Href;
+
+            var response = request.CreateResponse(HttpStatusCode.Created, newTask);
+            response.Headers.Add("Location", href);
+
+            return response;
+        }
+
+        public Task Put(HttpRequestMessage request, Task task)
+        {
+            var modelTask = _taskFetcher.GetTask(task.TaskId);
+
+            modelTask.Subject = task.Subject;
+            modelTask.DateCompleted = task.DateCompleted;
+            modelTask.DueDate = task.DueDate;
+            modelTask.StartDate = task.StartDate;
+            modelTask.Priority = _session.Get<Data.Model.Priority>(task.Priority.PriorityId);
+            modelTask.Status = _session.Get<Data.Model.Status>(task.Status.StatusId);
+        
+            modelTask.Categories.Clear();
+            foreach (var category in task.Categories)
+            {
+                var modelCategory = _session.Get<Data.Model.Category>(category.CategoryId);
+                modelTask.Categories.Add(modelCategory);
+            }
+
+            modelTask.Users.Clear();
+            foreach (var user in task.Assignees)
+            {
+                var modelUser = _session.Get<Data.Model.User>(user.UserId);
+                modelTask.Users.Add(modelUser);
+            }
+
+            _session.SaveOrUpdate(modelTask);
+
+            return _taskMapper.CreateTask(modelTask);
         }
     }
 }

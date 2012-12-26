@@ -167,6 +167,7 @@
     <Compile Include="TypeMappers\ICategoryMapper.cs" />
     <Compile Include="TypeMappers\IPriorityMapper.cs" />
     <Compile Include="TypeMappers\IStatusMapper.cs" />
+    <Compile Include="TypeMappers\ITaskMapper.cs" />
     <Compile Include="TypeMappers\IUserMapper.cs" />
     <Compile Include="TypeMappers\PriorityMapper.cs" />
     <Compile Include="TypeMappers\StatusMapper.cs" />
@@ -185,6 +186,7 @@
     </Compile>
     <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeMappers\TaskMapper.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="TypeMappers\UserMapper.cs" />
   </ItemGroup>

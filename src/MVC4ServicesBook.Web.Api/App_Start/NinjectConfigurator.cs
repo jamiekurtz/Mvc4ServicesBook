@@ -68,6 +68,7 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             container.Bind<IPriorityMapper>().To<PriorityMapper>();
             container.Bind<IStatusMapper>().To<StatusMapper>();
             container.Bind<IUserMapper>().To<UserMapper>();
+            container.Bind<ITaskMapper>().To<TaskMapper>();
 
             container.Bind<ISqlCommandFactory>().To<SqlCommandFactory>();
             container.Bind<IUserRepository>().To<UserRepository>();

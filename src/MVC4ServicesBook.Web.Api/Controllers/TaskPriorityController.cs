@@ -41,7 +41,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
 
             task.Priority = priority;
 
-            _session.Save(task);
+            _session.SaveOrUpdate(task);
         }
     }
 }

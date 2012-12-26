@@ -97,7 +97,7 @@ namespace MVC4ServicesBook.Web.Api.Controllers
             modelCateogry.Name = category.Name;
             modelCateogry.Description = category.Description;
 
-            _session.Save(modelCateogry);
+            _session.SaveOrUpdate(modelCateogry);
 
             return _categoryMapper.CreateCategory(modelCateogry);
         }
