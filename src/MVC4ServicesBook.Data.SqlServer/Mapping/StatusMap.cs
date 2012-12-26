@@ -1,4 +1,3 @@
-using FluentNHibernate.Mapping;
 using MVC4ServicesBook.Data.Model;
 
 namespace MVC4ServicesBook.Data.SqlServer.Mapping
