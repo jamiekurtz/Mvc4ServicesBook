@@ -36,10 +36,5 @@ namespace MVC4ServicesBook.Web.Api.TypeMappers
                 modelUser.Email,
                 modelUser.UserId);
         }
-
-        public void AddLinkToSelf(List<Link> links, Guid userId)
-        {
-            
-        }
     }
 }
