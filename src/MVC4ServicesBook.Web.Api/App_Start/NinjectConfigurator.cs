@@ -57,6 +57,10 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             container.Bind<IHttpStatusFetcher>().To<HttpStatusFetcher>();
             container.Bind<IHttpUserFetcher>().To<HttpUserFetcher>();
             container.Bind<IHttpTaskFetcher>().To<HttpTaskFetcher>();
+            container.Bind<IActionLogHelper>().To<ActionLogHelper>();
+            container.Bind<IExceptionMessageFormatter>().To<ExceptionMessageFormatter>();
+            container.Bind<IActionExceptionHandler>().To<ActionExceptionHandler>();
+            container.Bind<IActionTransactionHelper>().To<ActionTransactionHelper>();
 
             container.Bind<IUserManager>().To<UserManager>();
             container.Bind<IMembershipInfoProvider>().To<MembershipAdapter>();

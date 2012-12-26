@@ -86,6 +86,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionExceptionHandler.cs" />
+    <Compile Include="ActionLogHelper.cs" />
+    <Compile Include="ActionTransactionHelper.cs" />
+    <Compile Include="IActionExceptionHandler.cs" />
+    <Compile Include="IActionLogHelper.cs" />
+    <Compile Include="IActionTransactionHelper.cs" />
     <Compile Include="LoggingNHibernateSessionAttribute.cs" />
     <Compile Include="Security\IMembershipInfoProvider.cs" />
     <Compile Include="Security\IUserSession.cs" />
@@ -94,9 +100,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\MembershipUserWrapper.cs" />
     <Compile Include="Security\UserSession.cs" />
+    <Compile Include="WebContainerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MVC4ServicesBook.Common\MVC4ServicesBook.Common.csproj">
+      <Project>{8D91D0B5-95BA-4F87-B46E-2412DD743825}</Project>
+      <Name>MVC4ServicesBook.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
