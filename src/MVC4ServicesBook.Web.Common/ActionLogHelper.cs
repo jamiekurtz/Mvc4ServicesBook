@@ -7,6 +7,7 @@ namespace MVC4ServicesBook.Web.Common
     {
         public const string EnteringText = "ENTERING";
         public const string ExitingText = "EXITING";
+        public const string LogTextFormatString = "{0} {1}::{2}";
 
         private readonly ILog _logger;
 
@@ -25,10 +26,10 @@ namespace MVC4ServicesBook.Web.Common
             LogAction(actionDescriptor, ExitingText);
         }
 
-        public void LogAction(HttpActionDescriptor actionDescriptor, string prefix)
+        public virtual void LogAction(HttpActionDescriptor actionDescriptor, string prefix)
         {
             _logger.DebugFormat(
-                "{0} {1}::{2}",
+                LogTextFormatString,
                 prefix,
                 actionDescriptor.ControllerDescriptor.ControllerType.FullName,
                 actionDescriptor.ActionName);
