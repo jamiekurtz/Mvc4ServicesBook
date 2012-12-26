@@ -14,6 +14,8 @@ namespace MVC4ServicesBook.Web.Common
         private readonly ILog _logger;
         private readonly IExceptionMessageFormatter _exceptionMessageFormatter;
 
+        public bool ExceptionHandled { get; private set; }
+
         public ActionExceptionHandler(ILog logger, IExceptionMessageFormatter exceptionMessageFormatter)
         {
             _logger = logger;
@@ -24,6 +26,8 @@ namespace MVC4ServicesBook.Web.Common
         {
             var exception = filterContext.Exception;
             if (exception == null) return;
+
+            ExceptionHandled = true;
 
             _logger.Error("Exception occured:", exception);
 
