@@ -1,16 +1,19 @@
 using System.Web.Http.Filters;
 using NHibernate;
-using NHibernate.Context;
 
 namespace MVC4ServicesBook.Web.Common
 {
     public class ActionTransactionHelper : IActionTransactionHelper
     {
         private readonly ISessionFactory _sessionFactory;
+        private readonly ICurrentSessionContextAdapter _currentSessionContextAdapter;
 
-        public ActionTransactionHelper(ISessionFactory sessionFactory)
+        public ActionTransactionHelper(
+            ISessionFactory sessionFactory,
+            ICurrentSessionContextAdapter currentSessionContextAdapter)
         {
             _sessionFactory = sessionFactory;
+            _currentSessionContextAdapter = currentSessionContextAdapter;
         }
 
         public void BeginTransaction()
@@ -21,6 +24,8 @@ namespace MVC4ServicesBook.Web.Common
                 session.BeginTransaction();
             }
         }
+
+        public bool TransactionHandled { get; private set; }
 
         public void EndTransaction(HttpActionExecutedContext filterContext)
         {
@@ -38,17 +43,22 @@ namespace MVC4ServicesBook.Web.Common
             {
                 session.Transaction.Rollback();
             }
+
+            TransactionHandled = true;
         }
+
+        public bool SessionClosed { get; private set; }
 
         public void CloseSession()
         {
-            var sessionFactory = WebContainerManager.Get<ISessionFactory>();
-            if (CurrentSessionContext.HasBind(sessionFactory))
+            if (_currentSessionContextAdapter.HasBind(_sessionFactory))
             {
-                var session = sessionFactory.GetCurrentSession();
+                var session = _sessionFactory.GetCurrentSession();
                 session.Close();
                 session.Dispose();
-                CurrentSessionContext.Unbind(sessionFactory);
+                _currentSessionContextAdapter.Unbind(_sessionFactory);
+
+                SessionClosed = true;
             }
         }
     }

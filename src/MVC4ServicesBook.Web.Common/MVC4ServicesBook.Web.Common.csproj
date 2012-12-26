@@ -92,7 +92,9 @@
     <Compile Include="IActionExceptionHandler.cs" />
     <Compile Include="IActionLogHelper.cs" />
     <Compile Include="IActionTransactionHelper.cs" />
+    <Compile Include="ICurrentSessionContextAdapter.cs" />
     <Compile Include="LoggingNHibernateSessionAttribute.cs" />
+    <Compile Include="CurrentSessionContextAdapter.cs" />
     <Compile Include="Security\IMembershipInfoProvider.cs" />
     <Compile Include="Security\IUserSession.cs" />
     <Compile Include="Security\MembershipAdapter.cs" />

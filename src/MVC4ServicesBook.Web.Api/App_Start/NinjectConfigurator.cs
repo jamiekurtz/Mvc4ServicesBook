@@ -116,6 +116,8 @@ namespace MVC4ServicesBook.Web.Api.App_Start
 
             // Configure a resolver method to be used for creating ISession objects
             container.Bind<ISession>().ToMethod(CreateSession);
+
+            container.Bind<ICurrentSessionContextAdapter>().To<CurrentSessionContextAdapter>();
         }
 
         /// <summary>
