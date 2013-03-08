@@ -1,13 +1,9 @@
 ﻿CREATE TABLE [dbo].[User](
-	[UserId] [uniqueidentifier] NOT NULL,
+	[UserId] [uniqueidentifier] NOT NULL PRIMARY KEY CLUSTERED,
 	[Firstname] [nvarchar](50) NOT NULL,
 	[Lastname] [nvarchar](50) NOT NULL,
-	[ts] [rowversion] NOT NULL,
- CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
-(
-	[UserId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
+	[ts] [rowversion] NOT NULL
+)
 go
 
 alter table dbo.[User]
