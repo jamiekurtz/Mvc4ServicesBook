@@ -25,6 +25,8 @@ if not exists (select * from [aspnet_Membership] where UserId = N'6c82524a-b1e0-
 	INSERT [dbo].[aspnet_Membership] ([ApplicationId], [UserId], [Password], [PasswordFormat], [PasswordSalt], [MobilePIN], [Email], [LoweredEmail], [PasswordQuestion], [PasswordAnswer], [IsApproved], [IsLockedOut], [CreateDate], [LastLoginDate], [LastPasswordChangedDate], [LastLockoutDate], [FailedPasswordAttemptCount], [FailedPasswordAttemptWindowStart], [FailedPasswordAnswerAttemptCount], [FailedPasswordAnswerAttemptWindowStart], [Comment])
 		VALUES (N'8b2e549a-c283-46f2-b481-25136daa9059', N'6c82524a-b1e0-4b20-97b1-dbdf0dadad8e', N'RahmIwZNZNs7icla4wK9U6oGnr4=', 1, N'SO/L9Bthj5NwZUtWHB1vSg==', NULL, N'jbob@gmail.com', N'jbob@gmail.com', NULL, NULL, 1, 0, CAST(0x0000A0E600088AB8 AS DateTime), CAST(0x0000A100003CF03D AS DateTime), CAST(0x0000A0E600088AB8 AS DateTime), CAST(0xFFFF2FB300000000 AS DateTime), 0, CAST(0xFFFF2FB300000000 AS DateTime), 0, CAST(0xFFFF2FB300000000 AS DateTime), NULL)
 
+-- Password for jbob: jbob12345
+
 if not exists (select * from [User] where UserId = N'6c82524a-b1e0-4b20-97b1-dbdf0dadad8e')
 	INSERT [dbo].[User] ([UserId], [Firstname], [Lastname]) 
 		VALUES (N'6c82524a-b1e0-4b20-97b1-dbdf0dadad8e', N'Jim', N'Bob')
