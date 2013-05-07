@@ -51,7 +51,7 @@ namespace MVC4ServicesBook.SmokeTests
             const string creds = "jbob" + ":" + "jbob12345";
             var bcreds = Encoding.ASCII.GetBytes(creds);
             var base64Creds = Convert.ToBase64String(bcreds);
-            webClient.Headers.Add("Authorization", "Basic " + base64Creds);
+            webClient.Headers.Add("Authorization", "Basic " + base64Creds); // amJvYjpqYm9iMTIzNDU=
             return webClient;
         }
     }
