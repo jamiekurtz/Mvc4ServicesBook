@@ -63,7 +63,7 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             container.Bind<IActionTransactionHelper>().To<ActionTransactionHelper>();
 
             container.Bind<IUserManager>().To<UserManager>();
-            container.Bind<IMembershipInfoProvider>().To<MembershipAdapter>();
+            container.Bind<IMembershipAdapter>().To<MembershipAdapter>();
             container.Bind<ICategoryMapper>().To<CategoryMapper>();
             container.Bind<IPriorityMapper>().To<PriorityMapper>();
             container.Bind<IStatusMapper>().To<StatusMapper>();

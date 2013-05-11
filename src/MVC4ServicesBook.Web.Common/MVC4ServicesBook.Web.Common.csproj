@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BasicAuthForWebAPI">
+      <HintPath>..\..\lib\BasicAuthForWebAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\lib\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -96,12 +99,11 @@
     <Compile Include="LoggingNHibernateSessionAttribute.cs" />
     <Compile Include="CurrentSessionContextAdapter.cs" />
     <Compile Include="Security\AdministratorAuthorized.cs" />
-    <Compile Include="Security\IMembershipInfoProvider.cs" />
+    <Compile Include="Security\IMembershipAdapter.cs" />
     <Compile Include="Security\IUserSession.cs" />
     <Compile Include="Security\MembershipAdapter.cs" />
     <Compile Include="NinjectDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\MembershipUserWrapper.cs" />
     <Compile Include="Security\UserSession.cs" />
     <Compile Include="WebContainerManager.cs" />
   </ItemGroup>

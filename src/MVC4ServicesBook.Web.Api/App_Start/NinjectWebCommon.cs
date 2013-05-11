@@ -1,4 +1,9 @@
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Web.Http;
+using BasicAuthForWebAPI;
+using MVC4ServicesBook.Data.Model;
+using NHibernate;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(MVC4ServicesBook.Web.Api.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(MVC4ServicesBook.Web.Api.App_Start.NinjectWebCommon), "Stop")]
@@ -58,7 +63,29 @@ namespace MVC4ServicesBook.Web.Api.App_Start
             var containerConfigurator = new NinjectConfigurator();
             containerConfigurator.Configure(kernel);
 
-            GlobalConfiguration.Configuration.MessageHandlers.Add(kernel.Get<BasicAuthenticationMessageHandler>());
+            var authHandler = new BasicAuthenticationMessageHandler
+                {
+                    GetAdditionalClaims = user =>
+                        {
+                            var sessionFactory = kernel.Get<ISessionFactory>();
+                            using (var session = sessionFactory.OpenSession())
+                            {
+                                var userId = Guid.Parse(user.UserId);
+                                var modelUser = session.Get<User>(userId);
+                                
+                                var claims = new List<Claim>
+                                {
+                                    new Claim(ClaimTypes.GivenName, modelUser.Firstname),
+                                    new Claim(ClaimTypes.Surname, modelUser.Lastname)
+                                };
+
+                                return claims;
+                            }
+
+                        }
+                };
+
+            GlobalConfiguration.Configuration.MessageHandlers.Add(authHandler);
         }
     }
 }

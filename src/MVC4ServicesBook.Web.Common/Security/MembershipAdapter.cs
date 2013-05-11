@@ -1,51 +1,29 @@
-﻿using System;
-using System.Web.Security;
+﻿using System.Web.Security;
+using BasicAuthForWebAPI;
 
 namespace MVC4ServicesBook.Web.Common.Security
 {
-    public class MembershipAdapter : IMembershipInfoProvider
+    public class MembershipAdapter : IMembershipAdapter
     {
-        public MembershipUserWrapper GetUser(string username)
-        {
-            var user = Membership.GetUser(username);
-            return CreateMembershipUserWrapper(user);
-        }
-
-        public MembershipUserWrapper GetUser(Guid userId)
-        {
-            var user = Membership.GetUser(userId);
-            return CreateMembershipUserWrapper(user);
-        }
-
-        public MembershipUserWrapper CreateMembershipUserWrapper(MembershipUser user)
+        public MembershipProviderUser CreateMembershipUser(MembershipUser user)
         {
             if (user == null)
             {
                 return null;
             }
 
-            return new MembershipUserWrapper
+            return new MembershipProviderUser
                        {
-                           UserId = Guid.Parse(user.ProviderUserKey.ToString()),
+                           UserId = (string)user.ProviderUserKey,
                            Email = user.Email,
                            Username = user.UserName
                        };
         }
 
-        public MembershipUserWrapper CreateUser(string username, string password, string email)
+        public MembershipProviderUser CreateUser(string username, string password, string email)
         {
             var user = Membership.CreateUser(username, password, email);
-            return CreateMembershipUserWrapper(user);
-        }
-
-        public bool ValidateUser(string username, string password)
-        {
-            return Membership.ValidateUser(username, password);
-        }
-
-        public string[] GetRolesForUser(string username)
-        {
-            return Roles.GetRolesForUser(username);
+            return CreateMembershipUser(user);
         }
     }
 }
