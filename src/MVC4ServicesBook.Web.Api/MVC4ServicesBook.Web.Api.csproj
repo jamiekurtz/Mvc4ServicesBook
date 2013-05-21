@@ -41,9 +41,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BasicAuthForWebAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BasicAuthForWebAPI, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\BasicAuthForWebAPI.dll</HintPath>
+      <HintPath>..\..\lib\BasicAuthForWebAPI.1.0.4.0\lib\net45\BasicAuthForWebAPI.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\..\lib\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>

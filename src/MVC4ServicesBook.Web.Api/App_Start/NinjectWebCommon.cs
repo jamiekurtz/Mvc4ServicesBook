@@ -81,7 +81,6 @@ namespace MVC4ServicesBook.Web.Api.App_Start
 
                                 return claims;
                             }
-
                         }
                 };
 

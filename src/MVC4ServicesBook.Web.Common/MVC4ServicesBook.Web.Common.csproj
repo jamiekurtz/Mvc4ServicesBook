@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BasicAuthForWebAPI">
-      <HintPath>..\..\lib\BasicAuthForWebAPI.dll</HintPath>
+    <Reference Include="BasicAuthForWebAPI, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\BasicAuthForWebAPI.1.0.4.0\lib\net45\BasicAuthForWebAPI.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\lib\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>

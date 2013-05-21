@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>BasicAuthForWebAPI</id>
+    <version>1.0.4.0</version>
+    <title>Jamie Kurtz's Basic Authentication for Web API</title>
+    <authors>Jamie Kurtz</authors>
+    <owners>Jamie Kurtz</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
+    <projectUrl>https://github.com/jamiekurtz/BasicAuthForWebAPI</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides easy implementation for Basic HTTP authentication in an ASP.NET Web API project.</description>
+    <releaseNotes>By default, will use the ASP.NET Membership Provider (http://msdn.microsoft.com/en-us/library/yh26yfzy(v=VS.100).aspx). But you can modify and extend this behavior in either or both of the following ways:
+      - Pass your own IMembershipProvider to the BasicAuthenticationMessageHandler constructor
+      - Set the GetAdditionalClaims property to a Func that returns a collection of System.Security.Claims.Claim objects
+    
+      To configure the authentication, place the following line somewhere in your startup code - e.g. the Register() method in /app_start/WebApiConfig.cs:
+        
+           GlobalConfiguration.Configuration.MessageHandlers.Add(new BasicAuthenticationMessageHandler());
+        
+      Please see the project site for more details.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>REST ASP.NET WebAPI HTTP Basic Authentication</tags>
+  </metadata>
+</package>
