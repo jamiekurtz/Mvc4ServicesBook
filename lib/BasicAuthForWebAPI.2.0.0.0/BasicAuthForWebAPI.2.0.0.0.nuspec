@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>BasicAuthForWebAPI</id>
-    <version>1.0.4.0</version>
+    <version>2.0.0.0</version>
     <title>Jamie Kurtz's Basic Authentication for Web API</title>
     <authors>Jamie Kurtz</authors>
     <owners>Jamie Kurtz</owners>
@@ -13,13 +13,19 @@
     <releaseNotes>By default, will use the ASP.NET Membership Provider (http://msdn.microsoft.com/en-us/library/yh26yfzy(v=VS.100).aspx). But you can modify and extend this behavior in either or both of the following ways:
       - Pass your own IMembershipProvider to the BasicAuthenticationMessageHandler constructor
       - Set the GetAdditionalClaims property to a Func that returns a collection of System.Security.Claims.Claim objects
-    
-      To configure the authentication, place the following line somewhere in your startup code - e.g. the Register() method in /app_start/WebApiConfig.cs:
-        
-           GlobalConfiguration.Configuration.MessageHandlers.Add(new BasicAuthenticationMessageHandler());
-        
+      - Set the IssueChallengeResponse to true to allow only authenticated callers and tell browsers to prompt for credentials
+
+      To configure this module, place the following line somewhere in your startup code - e.g. the Register() method in /app_start/WebApiConfig.cs:
+
+          GlobalConfiguration.Configuration.MessageHandlers.Add(new BasicAuthenticationMessageHandler());
+
+      And then make sure you use the [Authorize] attribute to protect your controllers and their actions - either with a global filter or on individual controllers and actions.
+
       Please see the project site for more details.</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>REST ASP.NET WebAPI HTTP Basic Authentication</tags>
+    <references>
+      <reference file="BasicAuthForWebAPI.dll" />
+    </references>
   </metadata>
 </package>

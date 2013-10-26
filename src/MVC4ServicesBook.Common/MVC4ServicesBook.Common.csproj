@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationSettingsAdapter.cs" />
     <Compile Include="DateTimeAdapter.cs" />
     <Compile Include="ExceptionMessageFormatter.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="IDateTime.cs" />
     <Compile Include="IDatabaseValueParser.cs" />
     <Compile Include="DatabaseValueParser.cs" />

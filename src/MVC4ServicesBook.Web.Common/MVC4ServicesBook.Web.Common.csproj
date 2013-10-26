@@ -30,9 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BasicAuthForWebAPI, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BasicAuthForWebAPI, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\BasicAuthForWebAPI.1.0.4.0\lib\net45\BasicAuthForWebAPI.dll</HintPath>
+      <HintPath>..\..\lib\BasicAuthForWebAPI.2.0.0.0\lib\net45\BasicAuthForWebAPI.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\lib\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
@@ -116,6 +116,9 @@
       <Project>{8D91D0B5-95BA-4F87-B46E-2412DD743825}</Project>
       <Name>MVC4ServicesBook.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

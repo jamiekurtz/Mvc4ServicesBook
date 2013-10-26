@@ -16,8 +16,8 @@ namespace MVC4ServicesBook.Common.Tests
             var result = formatter.GetEntireExceptionStack(exception);
 
             Assert.AreEqual(exception.Message, result);
-        }      
-        
+        }
+
         [Test]
         public void GetEntireExceptionStack_returns_all_messages_when_three_exceptions()
         {
